@@ -21,7 +21,7 @@ El script permitirá a los alumnos de daw los siguientes opciones:
     Gestión de Apache/Nginx:
         Configuración de VirtualHost.
     Gestión de Bases de Datos:
-        Instalación y configuración del SGBD disponibles para el usuario.
+        Exportar/Importar BBDD disponibles para el usuario.
     Gestión de Copias de Seguridad:
         Creación de copias de seguridad periódicas.
 

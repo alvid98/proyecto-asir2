@@ -73,7 +73,8 @@ while [ $salir -eq 0 ]; do
 	echo "|5-mysql		" $snms"		|"
 	echo "|6-PhpMyAdmin		" $snpm"		|"
 	echo "├---------------------------------------┤"
-	echo "|7-Instalar seleccionados.		|"
+	echo "|7-Instalar seleccionados.              |"
+    echo "|8-Atrás                                |"
 	echo "└---------------------------------------┘"
 	read -p "Opción: " valor
 	case $valor in
@@ -152,8 +153,9 @@ while [ $salir -eq 0 ]; do
 		7)
 		echo $a2 $nx $ph $pt $ms $pm
 		read -p "enter para continuar"
-		./debian/instdebian.sh "$a2" "$nx" "$ph" "$pt" "$ms" "$pm"
-		
+		;;
+        8)
+		./scripts/debian.sh
 		;;
 	esac
 	clear

@@ -1,12 +1,5 @@
 #!/bin/bash
 clear
-echo "------------------------------------------|"
-echo "|Bienvenido al script de instalación LAMP |"
-echo "|Con este script podremos instalar        |"
-echo "|las herramientas básicas que se usarian  |"
-echo "|en el Grado Superior DAW.                |"
-echo "|-----------------------------------------|"
-sleep 5
 
 sistemas=(debian fedora opensuse arch)
 source /etc/*release
@@ -33,8 +26,11 @@ if [[ $detectado == "" ]]; then
 		read -p "Elija una opción: " linux
 	fi
 else
-	echo "Sistema operativo detectado."
-	echo "Aplicando configuración para "$detectado"..."
+	echo "┌---------------------------------------┐"
+	echo "|Sistema operativo detectado      	|"
+	echo "├---------------------------------------┤"
+	echo "|Aplicando configuración para "$detectado"	|"
+	echo "└---------------------------------------┘"
 	for i in "${!sistemas[@]}"
 	do
 		if [[ ${sistemas[$i]} = $detectado ]]; then

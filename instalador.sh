@@ -18,19 +18,23 @@ if [[ $detectado == "" ]]; then
 		detectado+=$(echo $idlike | grep $x)
 	done
 	if [[ $detectado == "" ]]; then
-		echo "Sistema operativo no detectado, elija una opción:"
-		echo "1- Debian o variante"
-		echo "2- Fedora o variante"
-		echo "3- Opensuse o variante"
-		echo "4- Arch o variante"
-		read -p "Elija una opción: " linux
+		echo "╔═══════════════════════════════════════╗"
+		echo "║Sistema operativo no detectado         ║"
+		echo "║Elija una opción:                      ║"
+		echo "╚═══════════════════════════════════════╝"
+		echo "┌---------------------------------------┐"
+		echo "|1- Debian o variante                   |"
+		echo "|2- Fedora o variante                   |"
+		echo "|3- Opensuse o variante                 |"
+		echo "|4- Arch o variante                     |"
+		echo "└---------------------------------------┘"
+		read -p "Opción: " linux
 	fi
 else
-	echo "┌---------------------------------------┐"
-	echo "|Sistema operativo detectado      	|"
-	echo "├---------------------------------------┤"
-	echo "|Aplicando configuración para "$detectado"	|"
-	echo "└---------------------------------------┘"
+	echo "╔═══════════════════════════════════════╗"
+	echo "║Sistema operativo detectado            ║"
+	echo "║Aplicando configuración para "$detectado"	║"
+	echo "╚═══════════════════════════════════════╝"
 	for i in "${!sistemas[@]}"
 	do
 		if [[ ${sistemas[$i]} = $detectado ]]; then

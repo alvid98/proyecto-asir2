@@ -40,42 +40,52 @@ fi
 if [[ $python -eq 1 ]];
 then
 	snpt="Existe"
+	pt=0
 else
 	snpt="No"
+	pt=0
 fi
 
 if [[ $mysql -eq 1 ]];
 then
 	snms="Existe"
+	ms=0
 else
 	snms="Si"
+	ms=1
 fi
 
 if [[ $phpmyadmin -eq 1 ]];
 then
 	snpm="Existe"
+	pm=0
 else
 	snpm="Si"
+	pm=1
 fi
 
 salir=0
 while [ $salir -eq 0 ]; do
+	clear
 	echo "Lista de paquetes que se van a instalar:"
 	echo "Para cambiar un valor, elige la opción."
 	echo "Si un paquete ya esta instalado, pondrá que existe."
+	echo "╔═══════════════════════════════════════╗"
+	echo "║Paquete:		Selección:	║"
+	echo "╚═══════════════════════════════════════╝"
 	echo "┌---------------------------------------┐"
-	echo "|Paquete:		Selección:	|"
-	echo "├---------------------------------------┤"
 	echo "|1-Apache2		" $sna2"		|"
 	echo "|2-nginx		" $snnx"		|"
 	echo "|3-php			" $snph"		|"
 	echo "|4-python		" $snpt"		|"
 	echo "|5-mysql		" $snms"		|"
 	echo "|6-PhpMyAdmin		" $snpm"		|"
-	echo "├---------------------------------------┤"
-	echo "|7-Instalar seleccionados.              |"
-    echo "|8-Atrás                                |"
 	echo "└---------------------------------------┘"
+	echo "╔═══════════════════════════════════════╗"
+	echo "║7-Instalar seleccionados.              ║"
+    echo "║8-Atrás                                ║"
+	echo "╚═══════════════════════════════════════╝"
+
 	read -p "Opción: " valor
 	case $valor in
 		1)
@@ -155,7 +165,7 @@ while [ $salir -eq 0 ]; do
 		read -p "enter para continuar"
 		;;
         8)
-		./scripts/debian.sh
+		salir=1
 		;;
 	esac
 	clear

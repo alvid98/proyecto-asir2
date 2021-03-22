@@ -1,4 +1,4 @@
-# proyecto-asir2
+# Proyecto fin de grado ASIR2
 Trabajo de fin de grado asir2
 
 # Descripción

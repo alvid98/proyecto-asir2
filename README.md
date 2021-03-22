@@ -6,8 +6,8 @@ Crear un script que instale los paquetes esenciales que se usan en el grado supe
 
 # Finalidad
 
-Facilitar al usuario administrador las tareas habituales de gestión de servidores sin necesidad de tener que ser un especialista en el manejo de comandos. 
-Usando la herramienta, se ahorraria un tiempo considerable en la administración del servidor.
+Facilitar al alumno de DAW el manejo del sistema linux sin necesidad de tener que ser un especialista en el manejo de comandos. 
+Usando la herramienta, se ahorraria un tiempo considerable en el uso de lo esencial, ya sea administracion de paquetes, copias de seguridad o exportacion/importacion de BBDD.
 
 # Objetivos
 

@@ -83,7 +83,7 @@ while [ $salir -eq 0 ]; do
 	echo "└---------------------------------------┘"
 	echo "╔═══════════════════════════════════════╗"
 	echo "║7-Instalar seleccionados.              ║"
-    echo "║8-Atrás                                ║"
+        echo "║8-Atrás                                ║"
 	echo "╚═══════════════════════════════════════╝"
 
 	read -p "Opción: " valor
@@ -92,10 +92,10 @@ while [ $salir -eq 0 ]; do
 		if [[ $sna2 == "Existe" ]];
 			then a2=0
 		elif [[ $sna2 == "Si" ]];
-			then
+		then
 			sna2="No"
 			a2=0
-			else
+		else
 			sna2="Si"
 			a2=1
 		fi
@@ -104,10 +104,10 @@ while [ $salir -eq 0 ]; do
 		if [[ $snnx == "Existe" ]];
                 	then nx=0
                 elif [[ $snnx == "Si" ]];
-                	then
+                then
 			snnx="No"
 			nx=0
-                	else
+                else
 			snnx="Si"
 			nx=1
                 fi
@@ -116,10 +116,10 @@ while [ $salir -eq 0 ]; do
 		if [[ $snph == "Existe" ]];
                 	then ph=0
                 elif [[ $snph == "Si" ]];
-                	then
+                then
 			snph="No"
 			ph=0
-                	else
+                else
 			snph="Si"
 			ph=1
                 fi
@@ -128,43 +128,68 @@ while [ $salir -eq 0 ]; do
 		if [[ $snpt == "Existe" ]];
                 	then pt=0
                 elif [[ $snpt == "Si" ]];
-                	then
-						snpt="No"
-						pt=0
-                	else
-						snpt="Si"
-						pt=1
+                then
+			snpt="No"
+			pt=0
+                else
+			snpt="Si"
+			pt=1
                 fi
 		;;
 		5)
 		if [[ $snms == "Existe" ]];
                 	then ms=0
                 elif [[ $snms == "Si" ]];
-                	then
-						snms="No"
-						ms=0
-                	else
-						snms="Si"
-						ms=1
+                then
+			snms="No"
+			ms=0
+                else
+			snms="Si"
+			ms=1
                 fi
 		;;
 		6)
 		if [[ $snpm == "Existe" ]];
                 	then pm=0
                 elif [[ $snpm == "Si" ]];
-                	then
-						snpm="No"
-						pm=0
-                	else
-						snpm="Si"
-						pm=1
+                then
+			snpm="No"
+			pm=0
+                else
+			snpm="Si"
+			pm=1
                 fi
 		;;
 		7)
 		echo $a2 $nx $ph $pt $ms $pm
 		read -p "enter para continuar"
+		if [ "$a2" = 1 ]; then
+		apt install -y apache2 &>/dev/null
+		fi
+	        if [ "$nx" = 1 ]; then
+		apt install -y nginx &>/dev/null
+		fi
+	        if [ "$ph" = 1 ]; then
+		apt install -y php &>/dev/null
+	        fi
+	        if [ "$pt" = 1 ]; then
+		apt install -y python3 &>/dev/null
+	        fi
+	        if [ "$ms" = 1 ]; then
+		apt install -y mariadb-server &>/dev/null
+	        fi
+	        if [ "$pm" = 1 ]; then
+		apt install -y phpmyadmin &>/dev/null
+        	fi
+	        if [ "$a2" = 0 ] && [ "$nx" = 0 ] && [ "$ph" = 0 ] && [ "$pt" = 0 ] && [ "$ms" = 0 ] && [ "$pm" = 0 ]; then
+		clear
+		echo "╔══════════════════════════════════════════════╗"
+		echo "║ERROR: No se ha seleccionado ningun paquete.  ║"
+		echo "╚══════════════════════════════════════════════╝"
+		sleep 3
+		fi
 		;;
-        8)
+        	8)
 		salir=1
 		;;
 	esac

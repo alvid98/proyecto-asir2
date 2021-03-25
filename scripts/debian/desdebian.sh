@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 #Script de instalación de debian.
-
+num=1
 #Comprobamos si los paquetes están instalados.
 apache2=$(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed")
 nginx=$(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed")
@@ -12,152 +12,161 @@ phpmyadmin=$(dpkg-query -W -f='${Status}' phpmyadmin 2>/dev/null | grep -c "ok i
 
 if [[ $apache2 -eq 1 ]];
 then
-	sna2="Existe"
+	i1=1
+	sna2="No"
 	a2=0
 else
-	sna2="Si"
-	a2=1
+	i1=0
 fi
 
 if [[ $nginx -eq 1 ]];
 then
-	snnx="Existe"
-	nx=0
-else
+	i2=1
 	snnx="No"
 	nx=0
+else
+	i2=0
 fi
 
 if [[ $php -eq 1 ]];
 then
-	snph="Existe"
+	i3=1
+	snph="No"
 	ph=0
 else
-	snph="Si"
-	ph=1
+	i3=0
 fi
 
 if [[ $python -eq 1 ]];
 then
-	snpt="Existe"
-	pt=0
-else
+	i4=1
 	snpt="No"
 	pt=0
+else
+	i4=0
 fi
 
 if [[ $mysql -eq 1 ]];
 then
-	snms="Existe"
+	i5=1
+	snms="No"
 	ms=0
 else
-	snms="Si"
-	ms=1
+	i5=0
 fi
 
 if [[ $phpmyadmin -eq 1 ]];
 then
-	snpm="Existe"
+	i6=1
+	snpm="No"
 	pm=0
 else
-	snpm="Si"
-	pm=1
+	i6=0
 fi
 
 salir=0
 while [ $salir -eq 0 ]; do
 	clear
-	echo "Lista de paquetes que se van a instalar:"
-	echo "Para cambiar un valor, elige la opción."
-	echo "Si un paquete ya esta instalado, pondrá que existe."
 	echo "╔═══════════════════════════════════════╗"
 	echo "║Paquete:		Selección:	║"
 	echo "╚═══════════════════════════════════════╝"
 	echo "┌---------------------------------------┐"
-	echo "|1-Apache2		" $sna2"		|"
-	echo "|2-nginx		" $snnx"		|"
-	echo "|3-php			" $snph"		|"
-	echo "|4-python		" $snpt"		|"
-	echo "|5-mysql		" $snms"		|"
-	echo "|6-PhpMyAdmin		" $snpm"		|"
+	if [ "$i1" = 1 ];then
+	echo "|"$num"-Apache2		" $sna2"		|"
+	num+=1
+	fi
+	if [ "$i2" = 1 ];then
+	echo "|"$num"-nginx		" $snnx"		|"
+	num+=1
+	fi
+	if [ "$i3" = 1 ];then
+	echo "|"$num"-php			" $snph"		|"
+	num+=1
+	fi
+	if [ "$i4" = 1 ];then
+	echo "|"$num"-python		" $snpt"		|"
+	num+=1
+	fi
+	if [ "$i5" = 1 ];then
+	echo "|"$num"-mysql		" $snms"		|"
+	num+=1
+	fi
+	if [ "$i6" = 1 ];then
+	echo "|"$num"-PhpMyAdmin		" $snpm"		|"
+	num+=1
+	fi
+	if [ "$i1" = 0 ] && [ "$i2" = 0 ] && [ "$i3" = 0 ] && [ "$i4" = 0 ] && [ "$i5" = 0 ] && [ "$i6" = 0 ];then
+	echo "| No existe ningun paquete para eliminar|"
 	echo "└---------------------------------------┘"
 	echo "╔═══════════════════════════════════════╗"
-	echo "║7-Instalar seleccionados.              ║"
-    echo "║8-Atrás                                ║"
+	else
+	echo "└---------------------------------------┘"
+	echo "╔═══════════════════════════════════════╗"
+	echo "║7-Desinstalar seleccionados.           ║"
+	fi
+	echo "║8-Atrás                                ║"
 	echo "╚═══════════════════════════════════════╝"
 
 	read -p "Opción: " valor
 	case $valor in
 		1)
-		if [[ $sna2 == "Existe" ]];
-			then a2=0
-		elif [[ $sna2 == "Si" ]];
-			then
+		if [[ $sna2 == "Si" ]];
+		then
 			sna2="No"
 			a2=0
-			else
+		else
 			sna2="Si"
 			a2=1
 		fi
 		;;
 		2)
-		if [[ $snnx == "Existe" ]];
-                	then nx=0
-                elif [[ $snnx == "Si" ]];
-                	then
+                if [[ $snnx == "Si" ]];
+                then
 			snnx="No"
 			nx=0
-                	else
+                else
 			snnx="Si"
 			nx=1
                 fi
 		;;
 		3)
-		if [[ $snph == "Existe" ]];
-                	then ph=0
-                elif [[ $snph == "Si" ]];
-                	then
+                if [[ $snph == "Si" ]];
+                then
 			snph="No"
 			ph=0
-                	else
+                else
 			snph="Si"
 			ph=1
                 fi
 		;;
 		4)
-		if [[ $snpt == "Existe" ]];
-                	then pt=0
-                elif [[ $snpt == "Si" ]];
-                	then
-						snpt="No"
-						pt=0
-                	else
-						snpt="Si"
-						pt=1
+                if [[ $snpt == "Si" ]];
+                then
+			snpt="No"
+			pt=0
+                else
+			snpt="Si"
+			pt=1
                 fi
 		;;
 		5)
-		if [[ $snms == "Existe" ]];
-                	then ms=0
-                elif [[ $snms == "Si" ]];
-                	then
-						snms="No"
-						ms=0
-                	else
-						snms="Si"
-						ms=1
+                if [[ $snms == "Si" ]];
+                then
+			snms="No"
+			ms=0
+                else
+			snms="Si"
+			ms=1
                 fi
 		;;
 		6)
-		if [[ $snpm == "Existe" ]];
-                	then pm=0
-                elif [[ $snpm == "Si" ]];
-                	then
-						snpm="No"
-						pm=0
-                	else
-						snpm="Si"
-						pm=1
+                if [[ $snpm == "Si" ]];
+                then
+			snpm="No"
+			pm=0
+                else
+			snpm="Si"
+			pm=1
                 fi
 		;;
 		7)

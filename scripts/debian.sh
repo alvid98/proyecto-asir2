@@ -33,7 +33,7 @@ while [ $salir -eq 0 ]; do
 		./scripts/debian/desdebian.sh
 		;;
 		3)
-
+		./scripts/debian/actdebian.sh
 		;;
 		4)
 

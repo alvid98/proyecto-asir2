@@ -222,6 +222,7 @@ while [ $salir -eq 0 ]; do
                         echo "╚══════════════════════════════════════════════╝"
                         read
                 else
+			apt autoremove -y
                         clear
                         echo "╔══════════════════════════════════════════════╗"
                         echo "║ Paquetes eliminados correctamente.           ║"

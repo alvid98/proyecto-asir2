@@ -228,6 +228,7 @@ while [ $salir -eq 0 ]; do
                         echo "║ Presiona enter para continuar.               ║"
                         echo "╚══════════════════════════════════════════════╝"
                         read
+			salir=1
 		fi
 		;;
         8)

@@ -6,7 +6,7 @@ Crear un script que instale los paquetes esenciales que se usan en el grado supe
 
 # Finalidad
 
-Facilitar al alumno de <a href="https://av.iesromerovargas.com/course/index.php?categoryid=8">DAW el manejo del sistema linux sin necesidad de tener que ser un especialista en el manejo de comandos. 
+Facilitar al alumno de <a href="https://av.iesromerovargas.com/course/index.php?categoryid=8">DAW</a> el manejo del sistema linux sin necesidad de tener que ser un especialista en el manejo de comandos. 
 Usando la herramienta, se ahorraria un tiempo considerable en el uso de lo esencial, ya sea administracion de paquetes, copias de seguridad o exportacion/importacion de BBDD.
 
 # Objetivos

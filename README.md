@@ -1,12 +1,12 @@
-# Proyecto fin de grado ASIR2
-
+# Proyecto fin de grado <a href="https://av.iesromerovargas.com/course/index.php?categoryid=9">ASIR2
+<img src='https://i.postimg.cc/W37tppk9/image.png' border='0' alt='image'/></a>
 # Descripción
 
 Crear un script que instale los paquetes esenciales que se usan en el grado superior de Desarrollo de Aplicaciones Web, que autodetecte el sistema operativo Linux que esté usando y te de opciones de administración tales como importación/exportación de bases de datos, creación de virtualhosts y copias de seguridad.
 
 # Finalidad
 
-Facilitar al alumno de DAW el manejo del sistema linux sin necesidad de tener que ser un especialista en el manejo de comandos. 
+Facilitar al alumno de <a href="https://av.iesromerovargas.com/course/index.php?categoryid=8">DAW el manejo del sistema linux sin necesidad de tener que ser un especialista en el manejo de comandos. 
 Usando la herramienta, se ahorraria un tiempo considerable en el uso de lo esencial, ya sea administracion de paquetes, copias de seguridad o exportacion/importacion de BBDD.
 
 # Objetivos
@@ -53,5 +53,7 @@ Teniendo hasta la entrega y presentación del proyecto 12 semanas, el tiempo dis
     Planificación y Diseño: 2 semanas
     Desarrollo: 8 semanas
     Despliegue: 2 semanas
+    
+    
     
     

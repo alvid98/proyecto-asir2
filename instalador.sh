@@ -31,17 +31,12 @@ if [[ $detectado == "" ]]; then
 		read -p "Opción: " linux
 	fi
 else
-	echo "╔═══════════════════════════════════════╗"
-	echo "║Sistema operativo detectado            ║"
-	echo "║Aplicando configuración para "$detectado"	║"
-	echo "╚═══════════════════════════════════════╝"
 	for i in "${!sistemas[@]}"
 	do
 		if [[ ${sistemas[$i]} = $detectado ]]; then
 			linux=$[$i+1]
 		fi
 	done
-	sleep 3
 fi
 
 case $linux in

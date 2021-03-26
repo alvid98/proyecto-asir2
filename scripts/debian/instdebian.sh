@@ -164,29 +164,44 @@ while [ $salir -eq 0 ]; do
 		echo $a2 $nx $ph $pt $ms $pm
 		read -p "enter para continuar"
 		if [ "$a2" = 1 ]; then
-		apt install -y apache2 &>/dev/null
+			if [ "$snnx" = "Existe" ]; then
+				service nginx stop
+			fi
+			apt install -y apache2 &>/dev/null
 		fi
 	        if [ "$nx" = 1 ]; then
-		apt install -y nginx &>/dev/null
+			if [ "$sna2" = "Existe" ]; then
+				service apache2 stop
+			fi
+			apt install -y nginx &>/dev/null
 		fi
 	        if [ "$ph" = 1 ]; then
-		apt install -y php &>/dev/null
+			apt install -y php &>/dev/null
 	        fi
 	        if [ "$pt" = 1 ]; then
-		apt install -y python3 &>/dev/null
+			apt install -y python3 &>/dev/null
 	        fi
 	        if [ "$ms" = 1 ]; then
-		apt install -y mariadb-server &>/dev/null
+			apt install -y mariadb-server &>/dev/null
 	        fi
 	        if [ "$pm" = 1 ]; then
-		apt install -y phpmyadmin &>/dev/null
+			apt install -y phpmyadmin &>/dev/null
         	fi
 	        if [ "$a2" = 0 ] && [ "$nx" = 0 ] && [ "$ph" = 0 ] && [ "$pt" = 0 ] && [ "$ms" = 0 ] && [ "$pm" = 0 ]; then
-		clear
-		echo "╔══════════════════════════════════════════════╗"
-		echo "║ERROR: No se ha seleccionado ningun paquete.  ║"
-		echo "╚══════════════════════════════════════════════╝"
-		sleep 3
+			clear
+			echo "╔══════════════════════════════════════════════╗"
+			echo "║ ERROR: No se ha seleccionado ningun paquete. ║"
+			echo "║ Presiona enter para continuar.               ║"
+			echo "╚══════════════════════════════════════════════╝"
+			read
+		else
+			clear
+			echo "╔══════════════════════════════════════════════╗"
+			echo "║ Paquetes instalados correctamente.           ║"
+			echo "║ Presiona enter para continuar.               ║"
+			echo "╚══════════════════════════════════════════════╝"
+			read
+			salir=1
 		fi
 		;;
         	8)

@@ -7,7 +7,7 @@ salir=0
 while [ $salir -eq 0 ]; do
 	clear
 	echo "╔═══════════════════════════════════════╗"
-	echo "║Sistema: Debian                        ║"
+	echo "║Sistema: $1			║"
 	echo "╚═══════════════════════════════════════╝"
 	echo "┌---------------------------------------┐"
 	echo "|1-Instalar paquetes                    |"
@@ -27,13 +27,13 @@ while [ $salir -eq 0 ]; do
 	read -p "Opción: " valor
 	case $valor in
 		1)
-		./scripts/debian/instdebian.sh
+		./scripts/$1/instdebian.sh
 		;;
 		2)
-		./scripts/debian/desdebian.sh
+		./scripts/$1/desdebian.sh
 		;;
 		3)
-		./scripts/debian/actdebian.sh
+		./scripts/$1/actdebian.sh
 		;;
 		4)
 
@@ -42,7 +42,7 @@ while [ $salir -eq 0 ]; do
 
 		;;
 		6)
-		./scripts/debian/mysqldebian.sh
+		./scripts/$1/mysqldebian.sh
 		;;
 		7)
 

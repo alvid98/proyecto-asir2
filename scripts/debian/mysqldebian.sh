@@ -2,7 +2,7 @@
 
 salir=0
 while [ $salir -eq 0 ]; do
-    clear
+    	clear
 	echo "╔═══════════════════════════════════════╗"
 	echo "║Importar/Exportar BBDD                 ║"
 	echo "╚═══════════════════════════════════════╝"

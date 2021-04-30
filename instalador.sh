@@ -34,6 +34,20 @@ else
 			echo "|4- Arch o variante                     |"
 			echo "└---------------------------------------┘"
 			read -p "Opción: " linux
+			case $linux in
+				1)
+				detectado =$(echo debian)
+				;;
+				2)
+				detectado =$(echo fedora)
+				;;
+				3)
+				detectado =$(echo opensuse)
+				;;
+				4)
+				detectado =$(echo arch)
+				;;
+			esac 
 		fi
 	else
 	#Iniciamos el menú enviandole el sistema que se está usando

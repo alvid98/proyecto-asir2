@@ -49,9 +49,7 @@ else
 				;;
 			esac 
 		fi
-	else
-	#Iniciamos el menú enviandole el sistema que se está usando
-	./scripts/menu.sh $detectado
 	fi
-
+#Iniciamos el menú enviandole el sistema que se está usando
+./scripts/menu.sh $detectado
 fi

@@ -27,13 +27,13 @@ while [ $salir -eq 0 ]; do
 	read -p "Opción: " valor
 	case $valor in
 		1)
-		./scripts/$1/instdebian.sh
+		./scripts/$1/instalar.sh
 		;;
 		2)
-		./scripts/$1/desdebian.sh
+		./scripts/$1/desinstalar.sh
 		;;
 		3)
-		./scripts/$1/actdebian.sh
+		./scripts/$1/actualizar.sh
 		;;
 		4)
 
@@ -42,7 +42,7 @@ while [ $salir -eq 0 ]; do
 
 		;;
 		6)
-		./scripts/$1/mysqldebian.sh
+		./scripts/$1/mysql.sh
 		;;
 		7)
 
@@ -53,8 +53,3 @@ while [ $salir -eq 0 ]; do
 	esac
 	clear
 done
-
-
-
-
-#echo '<html><body><h1>Funciona.</h1></body></html>' >> index.html

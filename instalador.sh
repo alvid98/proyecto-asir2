@@ -3,8 +3,8 @@ clear
 
 sistemas=(debian fedora opensuse arch)
 source /etc/*release
-id=$(echo $ID)
-idlike=$(echo $ID_LIKE)
+id=$(cat /etc/*release | grep "^ID=" | cut -d"=" -f 2)
+idlike=$(cat /etc/*release | grep "^ID_LIKE" | cut -d"=" -f 2)
 if [ "$EUID" -ne 0 ];then
 	echo "╔═══════════════════════════════════════╗"
 	echo "║Por favor, inicia el script como root. ║"

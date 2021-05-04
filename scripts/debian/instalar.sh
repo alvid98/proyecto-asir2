@@ -65,21 +65,22 @@ else
 fi
 
 salir=0
-while [ $salir -eq 0 ]; do
 	clear
-	valor=$(dialog --nocancel --title "Instalacion" --stdout --checklist "Escoge los paquetes que desees" 0 0 0 1 "Apache2" off 2 "Nginx" off 3 "Php" off 4 "Python" off 5 "Mysql" off 6 "Phpmyadmin" off --menu "Elige" 1 "Instalar" 2 "Salir")
-	
+	valor=$(dialog --title "Instalacion" --stdout --checklist "Escoge los paquetes que desees" 0 0 0 1 "Apache2" off 2 "Nginx" off 3 "Php" off 4 "Python" off 5 "Mysql" off 6 "Phpmyadmin" off --menu "Elige" 1 "Instalar" 2 "Salir")
+	if [ $valor -eq 0 ]; then salir=1; else
+	clear
 	echo $valor
+	if [[ $valor == "" ]]; then valor=8; fi
 	for valor in $valor; do
 		case $valor in
 			1)
-				if [ "$snnx" = "Existe" ]; then
+				if [[ "$snnx" = "Existe" ]]; then
 					service nginx stop
 				fi
 				apt install -y apache2 &>/dev/null
 			;;
 			2)
-				if [ "$sna2" = "Existe" ]; then
+				if [[ "$sna2" = "Existe" ]]; then
 					service apache2 stop
 				fi
 				apt install -y nginx &>/dev/null
@@ -99,7 +100,7 @@ while [ $salir -eq 0 ]; do
 			7)
 				salir=1
 			;;
-			*)
+			8)
 				dialog --title "ERROR" --msgbox "No has seleccionado ningún paquete." 0 0
 			;;
 		esac
@@ -114,4 +115,4 @@ while [ $salir -eq 0 ]; do
 			salir=1
 		fi
 	done
-done
+	fi

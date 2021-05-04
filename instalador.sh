@@ -51,5 +51,12 @@ else
 		fi
 	fi
 #Iniciamos el menú enviandole el sistema que se está usando
+if ! command -v dialog &> /dev/null; then
+	if [[ $detectado == "debian" ]]; then apt install -y dialog
+	elif [[ $detectado == "fedora" ]]; then dnf install -y dialog
+	elif [[ $detectado == "opensuse" ]]; then zypper install -y dialog
+	elif [[ $detectado == "fedora" ]]; then pacman -S dialog
+fi
+
 ./scripts/menu.sh $detectado
 fi

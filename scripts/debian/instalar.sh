@@ -67,134 +67,44 @@ fi
 salir=0
 while [ $salir -eq 0 ]; do
 	clear
-	echo "Lista de paquetes que se van a instalar:"
-	echo "Para cambiar un valor, elige la opción."
-	echo "Si un paquete ya esta instalado, pondrá que existe."
-	echo "╔═══════════════════════════════════════╗"
-	echo "║Paquete:		Selección:	║"
-	echo "╚═══════════════════════════════════════╝"
-	echo "┌---------------------------------------┐"
-	echo "|1-Apache2		" $sna2"		|"
-	echo "|2-nginx		" $snnx"		|"
-	echo "|3-php			" $snph"		|"
-	echo "|4-python		" $snpt"		|"
-	echo "|5-mysql		" $snms"		|"
-	echo "|6-PhpMyAdmin		" $snpm"		|"
-	echo "└---------------------------------------┘"
-	echo "╔═══════════════════════════════════════╗"
-	echo "║7-Instalar seleccionados.              ║"
-        echo "║8-Atrás                                ║"
-	echo "╚═══════════════════════════════════════╝"
+	valor=$(dialog --nocancel --title "Instalacion" --stdout --checklist "Escoge los paquetes que desees" 0 0 0 1 "Apache2" off 2 "Nginx" off 3 "Php" off 4 "Python" off 5 "Mysql" off 6 "Phpmyadmin" off --menu "Elige" 1 "Instalar" 2 "Salir")
+	
+	echo $valor
+	for valor in $valor; do
+		case $valor in
+			1)
+				if [ "$snnx" = "Existe" ]; then
+					service nginx stop
+				fi
+				apt install -y apache2 &>/dev/null
+			;;
+			2)
+				if [ "$sna2" = "Existe" ]; then
+					service apache2 stop
+				fi
+				apt install -y nginx &>/dev/null
+			;;
+			3)
+				apt install -y php &>/dev/null
+		        ;;
+			4)
+				apt install -y python3 &>/dev/null
+		        ;;
+			5)
+				apt install -y mariadb-server &>/dev/null
+		        ;;
+			6)
+				apt install -y phpmyadmin &>/dev/null
+        		;;
+			7)
+				salir=1
+			;;
+			*)
+				dialog --title "ERROR" --msgbox "No has seleccionado ningún paquete." 0 0
+			;;
+		esac
 
-	read -p "Opción: " valor
-	case $valor in
-		1)
-		if [[ $sna2 == "Existe" ]];
-			then a2=0
-		elif [[ $sna2 == "Si" ]];
-		then
-			sna2="No"
-			a2=0
-		else
-			sna2="Si"
-			a2=1
-		fi
-		;;
-		2)
-		if [[ $snnx == "Existe" ]];
-                	then nx=0
-                elif [[ $snnx == "Si" ]];
-                then
-			snnx="No"
-			nx=0
-                else
-			snnx="Si"
-			nx=1
-                fi
-		;;
-		3)
-		if [[ $snph == "Existe" ]];
-                	then ph=0
-                elif [[ $snph == "Si" ]];
-                then
-			snph="No"
-			ph=0
-                else
-			snph="Si"
-			ph=1
-                fi
-		;;
-		4)
-		if [[ $snpt == "Existe" ]];
-                	then pt=0
-                elif [[ $snpt == "Si" ]];
-                then
-			snpt="No"
-			pt=0
-                else
-			snpt="Si"
-			pt=1
-                fi
-		;;
-		5)
-		if [[ $snms == "Existe" ]];
-                	then ms=0
-                elif [[ $snms == "Si" ]];
-                then
-			snms="No"
-			ms=0
-                else
-			snms="Si"
-			ms=1
-                fi
-		;;
-		6)
-		if [[ $snpm == "Existe" ]];
-                	then pm=0
-                elif [[ $snpm == "Si" ]];
-                then
-			snpm="No"
-			pm=0
-                else
-			snpm="Si"
-			pm=1
-                fi
-		;;
-		7)
-		echo $a2 $nx $ph $pt $ms $pm
-		read -p "enter para continuar"
-		if [ "$a2" = 1 ]; then
-			if [ "$snnx" = "Existe" ]; then
-				service nginx stop
-			fi
-			apt install -y apache2 &>/dev/null
-		fi
-	        if [ "$nx" = 1 ]; then
-			if [ "$sna2" = "Existe" ]; then
-				service apache2 stop
-			fi
-			apt install -y nginx &>/dev/null
-		fi
-	        if [ "$ph" = 1 ]; then
-			apt install -y php &>/dev/null
-	        fi
-	        if [ "$pt" = 1 ]; then
-			apt install -y python3 &>/dev/null
-	        fi
-	        if [ "$ms" = 1 ]; then
-			apt install -y mariadb-server &>/dev/null
-	        fi
-	        if [ "$pm" = 1 ]; then
-			apt install -y phpmyadmin &>/dev/null
-        	fi
-	        if [ "$a2" = 0 ] && [ "$nx" = 0 ] && [ "$ph" = 0 ] && [ "$pt" = 0 ] && [ "$ms" = 0 ] && [ "$pm" = 0 ]; then
-			clear
-			echo "╔══════════════════════════════════════════════╗"
-			echo "║ ERROR: No se ha seleccionado ningun paquete. ║"
-			echo "║ Presiona enter para continuar.               ║"
-			echo "╚══════════════════════════════════════════════╝"
-			read
-		else
+		if [ $ins -eq 1 ]; then
 			clear
 			echo "╔══════════════════════════════════════════════╗"
 			echo "║ Paquetes instalados correctamente.           ║"
@@ -203,10 +113,5 @@ while [ $salir -eq 0 ]; do
 			read
 			salir=1
 		fi
-		;;
-        	8)
-		salir=1
-		;;
-	esac
-	clear
+	done
 done

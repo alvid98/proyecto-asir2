@@ -36,16 +36,16 @@ else
 			read -p "Opción: " linux
 			case $linux in
 				1)
-				detectado =$(echo debian)
+				detectado=$(echo debian)
 				;;
 				2)
-				detectado =$(echo fedora)
+				detectado=$(echo fedora)
 				;;
 				3)
-				detectado =$(echo opensuse)
+				detectado=$(echo opensuse)
 				;;
 				4)
-				detectado =$(echo arch)
+				detectado=$(echo arch)
 				;;
 			esac 
 		fi

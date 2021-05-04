@@ -5,26 +5,9 @@
 
 salir=0
 while [ $salir -eq 0 ]; do
+valor=$(dialog --nocancel --title "Sistema "$1":" --stdout --menu "Elija una opcion" 0 0 0 1 "Instalar paquetes" 2 "Desinstalar paquetes" 3 "Actualizar Paquetes" 4 "Configuracion de VirtualHosts" 5 "Instalacion de certificados" 6 "Importar/Exportar BBDD" 7 "Copias de seguridad" 8 "Salir")
 	clear
-	echo "╔═══════════════════════════════════════╗"
-	echo "║Sistema: $1			║"
-	echo "╚═══════════════════════════════════════╝"
-	echo "┌---------------------------------------┐"
-	echo "|1-Instalar paquetes                    |"
-	echo "|2-Desinstalar paquetes                 |"
-	echo "|3-Actualizar paquetes                  |"
-	echo "├---------------------------------------┤"
-	echo "|4-Configuracion Virtualhosts           |"
-	echo "|5-Instalacion de certificados          |"
-	echo "├---------------------------------------┤"
-	echo "|6-Importar/Exportar BBDD               |"
-	echo "├---------------------------------------┤"
-	echo "|7-Copias de seguridad                  |"
-	echo "└---------------------------------------┘"
-	echo "╔═══════════════════════════════════════╗"
-	echo "║8-Salir                                ║"
-	echo "╚═══════════════════════════════════════╝"
-	read -p "Opción: " valor
+
 	case $valor in
 		1)
 		./scripts/$1/instalar.sh

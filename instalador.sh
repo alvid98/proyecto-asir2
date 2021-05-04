@@ -24,7 +24,7 @@ else
 		done
 		if [[ $detectado == "" ]]; then
 			echo "╔═══════════════════════════════════════╗"
-			echo "║Sistema operativo no detectado         ║"
+			echo "║Distribucion no detectada              ║"
 			echo "║Elija una opción:                      ║"
 			echo "╚═══════════════════════════════════════╝"
 			echo "┌---------------------------------------┐"

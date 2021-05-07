@@ -65,54 +65,86 @@ else
 fi
 
 salir=0
+ins=1
 	clear
-	valor=$(dialog --title "Instalacion" --stdout --checklist "Escoge los paquetes que desees" 0 0 0 1 "Apache2" off 2 "Nginx" off 3 "Php" off 4 "Python" off 5 "Mysql" off 6 "Phpmyadmin" off --menu "Elige" 1 "Instalar" 2 "Salir")
-	if [ $valor -eq 0 ]; then salir=1; else
-	clear
-	echo $valor
-	if [[ $valor == "" ]]; then valor=8; fi
-	for valor in $valor; do
-		case $valor in
-			1)
-				if [[ "$snnx" = "Existe" ]]; then
-					service nginx stop
-				fi
-				apt install -y apache2 &>/dev/null
-			;;
-			2)
-				if [[ "$sna2" = "Existe" ]]; then
-					service apache2 stop
-				fi
-				apt install -y nginx &>/dev/null
-			;;
-			3)
-				apt install -y php &>/dev/null
-		        ;;
-			4)
-				apt install -y python3 &>/dev/null
-		        ;;
-			5)
-				apt install -y mariadb-server &>/dev/null
-		        ;;
-			6)
-				apt install -y phpmyadmin &>/dev/null
-        		;;
-			7)
-				salir=1
-			;;
-			8)
-				dialog --title "ERROR" --msgbox "No has seleccionado ningún paquete." 0 0
-			;;
-		esac
+	valor=$(dialog --nocancel --title "Instalacion" --stdout --checklist "Escoge los paquetes que desees" 0 0 0 1 "Apache2 - Servidor Web" off 2 "Nginx   - Servidor Web" off 3 "Php     - Interprete " off 4 "Python  - IDE" off 5 "Mysql   - Bases de datos" off 6 "Phpmyadmin" off)
+	dialog --stdout --title "Confirmación" --yesno "¿Seguro que desea instalar los siguientes paquetes?" 0 0
+	sino=$?
+	if [ $sino -eq 0 ]; then
+		clear
+		echo $valor
+		for valor in $valor; do
+			case $valor in
+				1)
+					if [[ "$snnx" = "Existe" ]]; then
+						service nginx stop
+					fi
+					echo '                            _          ___  '
+					echo '     /\                    | |        |__ \ '
+					echo '    /  \   _ __   __ _  ___| |__   ___   ) |'
+					echo '   / /\ \ | ´_ \ / _` |/ __|  _ \ / _ \ / / '
+					echo '  / ____ \| |_) | (_| | (__| | | |  __// /_ '
+					echo ' /_/    \_\ .__/ \__,_|\___|_| |_|\___|____|'
+					echo '          | |                               '
+					echo '          |_|'
+					apt install -y apache2 || ins=0
+				;;
+				2)
+					if [[ "$sna2" = "Existe" ]]; then
+						service apache2 stop
+					fi
+					echo '   _   _       _            '
+					echo '  | \ | |     (_)           '
+					echo '  |  \| | __ _ _ _ __ __  __'
+					echo '  | . ` |/ _` | | ´_ \\ \/ /'
+					echo '  | |\  | (_| | | | | |>  < '
+					echo '  |_| \_|\__, |_|_| |_/_/\_\'
+					echo '         __/ |             '
+					echo '        |___/  '
+					apt install -y nginx || ins=0
+				;;
+				3)
+					echo '  _____  _           '
+					echo ' |  __ \| |          '
+					echo ' | |__) | |__  _ __  '
+					echo ' |  ___/|  _ \| ´_ \ '
+					echo ' | |    | | | | |_) |'
+					echo ' |_|    |_| |_| .__/ '
+					echo '              | |    '
+					echo '              |_|    '
+					apt install -y php || ins=0
+			        ;;
+				4)
+					echo '  _____       _   _                 ____  '
+					echo ' |  __ \     | | | |               |___ \ '
+					echo ' | |__) |   _| |_| |__   ___  _ __   __) |'
+					echo ' |  ___/ | | | __|  _ \ / _ \| ´_ \ |__ < '
+					echo ' | |   | |_| | |_| | | | (_) | | | |___) |'
+					echo ' |_|    \__, |\__|_| |_|\___/|_| |_|____/ '
+					echo '         __/ |                            '
+					echo '        |___/                     '
+					apt install -y python3 || ins=0
+			        ;;
+				5)
+					echo '  __  __            _       _____  ____  '
+					echo ' |  \/  |          (_)     |  __ \|  _ \ '
+					echo ' | \  / | __ _ _ __ _  __ _| |  | | |_) |'
+					echo ' | |\/| |/ _` | ´__| |/ _` | |  | |  _ < '
+					echo ' | |  | | (_| | |  | | (_| | |__| | |_) |'
+					echo ' |_|  |_|\__,_|_|  |_|\__,_|_____/|____/ '
+					apt install -y mariadb-server || ins=0
+			        ;;
+				6)
+					apt install -y phpmyadmin || ins=0
+        			;;
+			esac
+		done
 
-		if [ $ins -eq 1 ]; then
-			clear
-			echo "╔══════════════════════════════════════════════╗"
-			echo "║ Paquetes instalados correctamente.           ║"
-			echo "║ Presiona enter para continuar.               ║"
-			echo "╚══════════════════════════════════════════════╝"
-			read
-			salir=1
+		if [[ $ins -eq 1 ]]; then
+			dialog --title "Información" --msgbox "Paquetes instalados correctamente." 0 0
+		elif [[ $ins -eq 0 ]];then
+			dialog --title "ERROR" --msgbox "Ha ocurrido un error al instalar los paquetes." 0 0
 		fi
-	done
+	else
+		dialog --title "Información" --msgbox "Instalación cancelada." 0 0
 	fi

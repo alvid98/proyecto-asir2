@@ -31,7 +31,12 @@ valor=$(dialog --nocancel --title "Sistema "$1":" --stdout --menu "Elija una opc
 
 		;;
 		8)
+		dialog --stdout --title "Confirmación" --yesno "¿Seguro que desea salir?" 0 0
+		if [[ $? -eq 0 ]]; then
 		salir=1
+		else
+		salir=0
+		fi
 		;;
 	esac
 	clear

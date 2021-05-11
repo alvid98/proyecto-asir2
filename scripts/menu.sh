@@ -28,7 +28,7 @@ valor=$(dialog --nocancel --backtitle "Proyecto asir" --title "Sistema "$1":" --
 		./scripts/$1/mysql.sh
 		;;
 		7)
-
+		./scripts/$1/copiaseg.sh
 		;;
 		8)
 		dialog --stdout --title "Confirmación" --yesno "¿Seguro que desea salir?" 0 0

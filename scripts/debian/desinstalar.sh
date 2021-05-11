@@ -5,7 +5,7 @@ clear
 apache2=$(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed")
 nginx=$(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed")
 php=$(dpkg-query -W -f='${Status}' php 2>/dev/null | grep -c "ok installed")
-python=$(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed")
+python=$(dpkg-query -W -f='${Status}' python3 2>/dev/null | grep -c "ok installed")
 mysql=$(dpkg-query -W -f='${Status}' mariadb-server 2>/dev/null | grep -c "ok installed")
 phpmyadmin=$(dpkg-query -W -f='${Status}' phpmyadmin 2>/dev/null | grep -c "ok installed")
 

@@ -3,20 +3,10 @@
 salir=0
 while [ $salir -eq 0 ]; do
     	clear
-	echo "╔═══════════════════════════════════════╗"
-	echo "║Importar/Exportar BBDD                 ║"
-	echo "╚═══════════════════════════════════════╝"
-	echo "┌---------------------------------------┐"
-	echo "|1-Importar BBDD                        |"
-	echo "├---------------------------------------┤"
-	echo "|2-Exportar BBDD                        |"
-	echo "└---------------------------------------┘"
-	echo "╔═══════════════════════════════════════╗"
-	echo "║3-Salir                                ║"
-	echo "╚═══════════════════════════════════════╝"
-	read -p "Opción: " valor
+	valor=$(dialog --nocancel --backtitle "Exportar/Importar BBDD" --title "Exportar/Importar BBDD" --stdout --menu "Elija una opcion :" 0 0 0 1 "Importar BBDD" 2 "Exportar BBDD" 3 "Atras")
 	case $valor in
 		1)
+
 		;;
 		2)
 		salir2=0
@@ -54,5 +44,4 @@ while [ $salir -eq 0 ]; do
 		salir=1
 		;;
 	esac
-	clear
 done

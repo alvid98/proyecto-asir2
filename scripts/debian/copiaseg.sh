@@ -6,7 +6,7 @@ if [ $? -eq 0 ]; then
 	case $valor in
                 1)
 		crontab -l > lista.cron
-		sed -i -E 's/....(..)(..)(..).*(\/.*) (\/.*)/Mes: \1 Dia mes: \2 Dia semana: \3 Directorio: \4 Destino: \5/g' lista.cron
+		sed -i -E 's/. . . (.*) (.*) (.*).*(\/.*) (\/.*)/Mes: \1 Dia mes: \2 Dia semana: \3 Directorio: \4 Destino: \5/g' lista.cron
 		sed -i -E 's/^"*"//g' lista.cron
 		dialog --title "Lista de cron" --textbox lista.cron 0 0
                 ;;

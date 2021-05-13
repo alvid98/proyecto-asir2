@@ -6,10 +6,11 @@ if [ $? -eq 0 ]; then
 	case $valor in
                 1)
 		crontab -l > lista.cron
-		sed -i -E 's/. . . (.*) (.*) (.*).*(\/.*) (\/.*)/Mes: \1 Dia mes: \2 Dia semana: \3 Directorio: \4 Destino: \5/g' lista.cron
+		sed -i -E 's/.* (.*) (.*) (.*) .*"\/.* (\/.*) (\/.*)"/MES: \1 DIA MES: \2 DIA SEMANA: \3 DIRECTORIO: \4 DESTINO: \5/g' lista.cron
 		sed -i -E 's/^"*"//g' lista.cron
 		dialog --title "Lista de cron" --textbox lista.cron 0 0
-                ;;
+                rm -r lista.cron
+		;;
                 2)
 		directorio1=$(dialog --backtitle "Para seleccionar un directorio, pulsa espacio 1 vez, para entrar en el, pulsa espacio 2 veces." --title "Selecciona el directorio que desea copiar" --stdout --dselect $HOME/  14 70)
 		directorio2=$(dialog --backtitle "Para seleccionar un directorio, pulsa espacio 1 vez, para entrar en el, pulsa espacio 2 veces." --title "Selecciona el directorio donde guardar la copia" --stdout --dselect $HOME/  14 70)

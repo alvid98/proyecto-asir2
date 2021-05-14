@@ -16,8 +16,7 @@ ins=1
 	clear
 	valor=$(dialog --nocancel --backtitle "Instalar paquetes" --title "Instalacion" --stdout --checklist "Escoge los paquetes que desees" 0 0 0 1 "apache2 - Servidor Web" off 2 "Nginx   - Servidor Web" off 3 "Php     - Interprete" off 4 "Python  - IDE" off 5 "Mysql   - Bases de datos" off 6 "Phpmyadmin" off)
 	dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los siguientes paquetes?" 0 0
-	sino=$?
-	if [ $sino -eq 0 ]; then
+	if [ $? -eq 0 ]; then
 		for valor in $valor; do
 		prog=$[$prog+20]
 			case $valor in

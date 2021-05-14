@@ -5,9 +5,8 @@ if [ $? -eq 0 ]; then
 
 	case $valor in
                 1)
-		crontab -l > lista.cron
-		sed -i -E 's/.* (.*) (.*) (.*) .*"\/.* (\/.*) (\/.*)"/MES: \1 DIA MES: \2 DIA SEMANA: \3 DIRECTORIO: \4 DESTINO: \5/g' lista.cron
-		sed -i -E 's/^"*"//g' lista.cron
+		crontab -l | grep "#tfg"> lista.cron
+		sed -i -E 's/.* (.*) (.*) (.*) .*"\/.* (\/.*) (\/.*)" .*/MES: \1 DIA MES: \2 DIA SEMANA: \3 DIRECTORIO: \4 DESTINO: \5/g' lista.cron
 		dialog --title "Lista de cron" --textbox lista.cron 0 0
                 rm -r lista.cron
 		;;
@@ -41,7 +40,7 @@ if [ $? -eq 0 ]; then
 				dia="domingo"
 				;;
 			esac
-			crontab -l | { cat; echo '* * * * '$ndia' "/cp -r '$directorio1' '$directorio2'"'; } | crontab -
+			crontab -l | { cat; echo '* * * * '$ndia' "/cp -r '$directorio1' '$directorio2'" #tfg'; } | crontab -
 			dialog --title "Informacion" --msgbox "Se ha configurado la copia del directorio $directorio1 en $directorio2 cada $dia." 0 0
                 	;;
         	        2)
@@ -52,7 +51,7 @@ if [ $? -eq 0 ]; then
 				if [[ $mesd =~ ^[0-9]+$ ]]; then
 					if [[ $mesd -le 28 && $mesd -ge 1 ]]; then
 						valido=1
-						crontab -l | { cat; echo '* * '$mesd' * * "/cp -r '$directorio1' '$directorio2'"'; } | crontab -
+						crontab -l | { cat; echo '* * '$mesd' * * "/cp -r '$directorio1' '$directorio2'" #tfg'; } | crontab -
 						dialog --title "Informacion" --msgbox "Se ha configurado la copia del directorio $directorio1 en $directorio2 el dia $mesd de cada mes." 0 0
 					else
 					dialog --title "Informacion" --msgbox "El dia debe ser entre el 1 y el 28" 0 0
@@ -66,13 +65,15 @@ if [ $? -eq 0 ]; then
 			fecha=$(dialog --stdout --title "Anual" --calendar "Elige una fecha" 0 0)
 			Ydia=$(echo $fecha | cut -d"/" -f1)
 			Ymes=$(echo $fecha | cut -d"/" -f2)
-			crontab -l | { cat; echo '* * '$Ydia' '$Ymes' * "/cp -r '$directorio1' '$directorio2'"'; } | crontab -
+			crontab -l | { cat; echo '* * '$Ydia' '$Ymes' * "/cp -r '$directorio1' '$directorio2'" #tfg'; } | crontab -
 			dialog --title "Informacion" --msgbox "Se ha configurado la copia del directorio $directorio1 en $directorio2 cada dia $Ydia del mes $Ymes de cada año." 0 0
                 	;;
 		esac
                 ;;
                 3)
-		echo hola
+		crontab -l | grep "#tfg"> lista.cron
+		sed -i -E 's/.* (.*) (.*) (.*) .*"\/.* (\/.*) (\/.*)" .*/MES: \1 DIA MES: \2 DIA SEMANA: \3 DIRECTORIO: \4 DESTINO: \5/g' lista.cron
+		
                 ;;
 	esac
 fi

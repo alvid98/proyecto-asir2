@@ -1,5 +1,0 @@
-* * * * * "/cp -r $directorio1 $directorio2"
-Mes: * * "/cp Dia mes: -r Dia semana: /prueba Directorio: /prueba2 Destino: /test/testeado"
-* * 1Mes: "/cp Dia mes: -r Dia semana: /prueba Directorio: /prueba2 Destino: /test/testeado"
-* * 12 04 * "/cp -r /prueba/prueba2 /test/testeado"
-Mes: 04 4 "/cp Dia mes: -r Dia semana: /prueba Directorio: /prueba2 Destino: /test/testeado"

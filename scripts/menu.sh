@@ -19,7 +19,7 @@ valor=$(dialog --nocancel --backtitle "Proyecto asir" --title "Sistema "$1":" --
 		./scripts/$1/actualizar.sh
 		;;
 		4)
-
+		./scripts/vhosts.sh
 		;;
 		5)
 

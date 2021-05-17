@@ -1,8 +1,12 @@
 # Ensure that Apache listens on port 80
 Listen 80
 <VirtualHost *:80>
-    DocumentRoot "/www/example1"
-    ServerName www.example.com
+    DocumentRoot @
+    ServerName @
+    <Directory @>
+            Require all granted
+    </Directory>
 
     # Other directives here
 </VirtualHost>
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet

@@ -13,7 +13,7 @@ if [ $? -eq 0 ]; then
 	esac
 	menu=$(dialog --backtitle "Configuracion VirualHosts" --title "$server" --stdout --menu "¿Qué desea hacer?" 0 0 0 1 "Crear VHost" 2 "Editar VHost" 3 "Eliminar VHost")
 	if [ $? -eq 0 ];then
-		case $aon in
+		case $menu in
 			1)
 			salir=1
 			nombrevhost=""
@@ -24,17 +24,21 @@ if [ $? -eq 0 ]; then
 				if [ $? -eq 0 ]; then
 					case $crea in
 						1)
-						nombrevhost=$(dialog --title "Nombre fichero" --inputbox "Introduce un nombre para el archivo de configuracion:" 0 0)
+						nombrevhost=$(dialog --stdout --title "Nombre fichero" --inputbox "Introduce un nombre para el archivo de configuracion:" 0 0)
 						;;
 						2)
-						servername=$(dialog --title "Dominio" --inputbox "Introduce el dominio (www.ejemplo.com):" 0 0)
+						servername=$(dialog --stdout --title "Dominio" --inputbox "Introduce el dominio (www.ejemplo.com):" 0 0)
 						;;
 						3)
-						nombrevhost=$(dialog --title "Nombre" --inputbox "Enter the directory name:" 0 0)
+						directorio=$(dialog --stdout --title "Nombre" --inputbox "Enter the directory name:" 0 0)
+						;;
+						4)
+						dialog --title "Informacion" --msgbox "VirtualHost $nombrevhost creado para $server." 0 0
+						salir=0
 						;;
 					esac
 				elif [ $? -eq 1 ]; then
-				
+				dialog --title "Informacion" --msgbox "Creacion de VirtualHost cancelada." 0 0
 				salir=0
 				fi
 			done

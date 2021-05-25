@@ -1,5 +1,5 @@
 #!/bin/bash
-dialog --stdout --title "Confirmación" --yesno "¿Desea configurar copias de seguridad?" 0 0
+dialog --title "Confirmación" --yesno "¿Desea configurar copias de seguridad?" 0 0
 if [ $? -eq 0 ]; then
 	valor=$(dialog --nocancel --backtitle "Copias de seguridad" --title "Copias de seguridad" --stdout --menu "Elija una opción" 0 0 0 1 "Ver copiados configurados" 2 "Configurar nuevo copiado" 3 "Eliminar configuracion de copiado")
 
@@ -90,10 +90,14 @@ if [ $? -eq 0 ]; then
 		done < lista.cron
 
 		terminal=$(echo $(tty))
-		seleccion=$(dialog --stdout --backtitle "Eliminar copia automatica" --title "Eliminar copia automatica" --menu "Elige la copia de seguridad que desea borrar" 0 0 0 "${array[@]}" 2>&1 >$terminal)
-		echo $seleccion
-#		crontab -l | grep -v "$linea" | crontab -
-		rm -r lista.cron
+		seleccion=$(dialog --backtitle "Eliminar copia automatica" --title "Eliminar copia automatica" --menu "Elige la copia de seguridad que desea borrar" 0 0 0 "${array[@]}" 2>&1 >$terminal)
+		crontab -l > ficheros/lista.cron
+		linea=$(cat lista.cron | cut -f$seleccion -d$'\n')
+		clear
+		echo "$seleccion"
+		cron=$(echo "$linea" | sed -E 's/.* (.*) (.*) (.*) .*"\/.* (\/.*) (\/.*)" .*/\4 \5/g')
+		crontab -l | grep -v "$cron" | crontab -
+		rm -r ficheros/lista.cron
 
                 ;;
 	esac

@@ -1,9 +1,0 @@
-server {
-        listen 80;
-        root /var/www/nginx/;
-        index index.html index.php index.htm
-        server_name www.nginx.com;
-        location / {
-                 try_files $uri $uri/ =404;
-        }
-}

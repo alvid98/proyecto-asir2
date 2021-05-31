@@ -1,8 +1,0 @@
-Listen 80
-<VirtualHost *:80>
-    DocumentRoot /var/www/apache/
-    ServerName www.apache.com
-    <Directory /var/www/apache/ >
-            Require all granted
-    </Directory>
-</VirtualHost>

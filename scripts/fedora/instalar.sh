@@ -138,7 +138,7 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo '         __/ |                            ' &>> log.instalacion
 					echo '        |___/                     ' &>> log.instalacion
 					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Python3" 10 80 0
-					dnf install -y python3-setuptools python3-devel redhat-rpm-config &>> log.instalacion || ins=0
+					dnf install -y python3-setuptools python3-devel redhat-rpm-config &>> log.desinstalacion || ins=0
 			        ;;
 				$bd)
 					echo '  __  __            _       _____  ____  ' &>> log.instalacion
@@ -148,7 +148,7 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo ' | |  | | (_| | |  | | (_| | |__| | |_) |' &>> log.instalacion
 					echo ' |_|  |_|\__,_|_|  |_|\__,_|_____/|____/ ' &>> log.instalacion
 					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando MariaDB" 10 80 0
-					dnf install mariadb-server &>> log.instalacion || ins=0
+					dnf install -y mariadb-server &>> log.desinstalacion || ins=0
 					systemctl start mariadb &>> log.instalacion
 					systemctl enable mariadb &>> log.instalacion
 			        ;;

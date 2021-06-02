@@ -90,11 +90,15 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los 
 					echo '          | |                               ' &>> log.desinstalacion
 					echo '          |_|' &>> log.desinstalacion
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Apache2" 10 80 0
-					apt-get purge -y apache2 &>> log.desinstalacion || ins=0
+                                        systemctl stop httpd &>> log.desinstalacion
+                                        systemctl disable httpd &>> log.desinstalacion
+                                        yum -y remove httpd &>> log.desinstalacion || ins=0
+                                        yum -y autoremove httpd &>> log.desinstalacion || ins=0
+                                        firewall-cmd --reload &>> log.desinstalacion
 				;;
 				$nx)
-					if command -v apache2 &> /dev/null; then
-						service apache2 stop
+					if command -v httpd &> /dev/null; then
+						service httpd stop
 					fi
 					echo '   _   _       _            ' &>> log.desinstalacion
 					echo '  | \ | |     (_)           ' &>> log.desinstalacion
@@ -105,7 +109,13 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los 
 					echo '         __/ |             ' &>> log.desinstalacion
 					echo '        |___/  ' &>> log.desinstalacion
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Nginx" 10 80 0
-					apt-get purge -y nginx &>> log.desinstalacion || ins=0
+                                        systemctl stop nginx &>> log.desinstalacion
+                                        systemctl disable nginx &>> log.desinstalacion
+                                        yum -y remove nginx &>> log.desinstalacion || ins=0
+                                        yum -y autoremove nginx &>> log.desinstalacion || ins=0
+                                        firewall-cmd --permanent --remove-port=80/tcp &>> log.desinstalacion
+                                        firewall-cmd --permanent --remove-port=443/tcp &>> log.desinstalacion
+                                        firewall-cmd --reload &>> log.desinstalacion
 				;;
 				$ph)
 					echo '  _____  _           ' &>> log.desinstalacion
@@ -117,7 +127,8 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los 
 					echo '              | |    ' &>> log.desinstalacion
 					echo '              |_|    ' &>> log.desinstalacion
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Php" 10 80 0
-					apt-get purge -y php &>> log.desinstalacion || ins=0
+                                        dnf module -y remove php:remi-7.4 &>> log.desinstalacion || ins=0
+                                        dnf module -y autoremove php:remi-7.4 &>> log.desinstalacion || ins=0
 			        ;;
 				$py)
 					echo '  _____       _   _                 ____  ' &>> log.desinstalacion
@@ -129,7 +140,8 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los 
 					echo '         __/ |                            ' &>> log.desinstalacion
 					echo '        |___/                     ' &>> log.desinstalacion
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Python3" 10 80 0
-					apt-get purge -y python3 &>> log.desinstalacion || ins=0
+					dnf remove -y python3-setuptools python3-devel redhat-rpm-config &>> log.desinstalacion || ins=0
+					dnf autoremove -y python3-setuptools python3-devel redhat-rpm-config &>> log.desinstalacion || ins=0
 			        ;;
 				$bd)
 					echo '  __  __            _       _____  ____  ' &>> log.desinstalacion
@@ -139,11 +151,15 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los 
 					echo ' | |  | | (_| | |  | | (_| | |__| | |_) |' &>> log.desinstalacion
 					echo ' |_|  |_|\__,_|_|  |_|\__,_|_____/|____/ ' &>> log.desinstalacion
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando MariaDB" 10 80 0
-					apt-get purge -y mariadb-server &>> log.desinstalacion || ins=0
+                                        systemctl stop mariadb &>> log.instalacion
+                                        systemctl disable mariadb &>> log.instalacion
+					dnf remove -y mariadb-server &>> log.instalacion || ins=0
+					dnf autoremove -y mariadb-server &>> log.instalacion || ins=0
 			        ;;
 				$pp)
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando PhpMyAdmin" 10 80 0
-					apt-get purge -y phpmyadmin &>> log.desinstalacion || ins=0
+					dnf remove -y phpmyadmin &>> log.desinstalacion || ins=0
+                                        dnf autoremove -y phpmyadmin &>> log.desinstalacion || ins=0
         			;;
 			esac
 		done

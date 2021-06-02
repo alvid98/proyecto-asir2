@@ -65,7 +65,7 @@ fi
 terminal=$(echo $(tty))
 salir=0
 prog=0
-
+ins=1
 valor=$(dialog --nocancel --backtitle "Instalar paquetes" --title "Instalacion" --checklist "Escoge los paquetes que desees" 0 0 0 "${array[@]}" 2>&1 >$terminal)
 dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los siguientes paquetes?" 0 0
 	if [ $? -eq 0 ]; then
@@ -85,13 +85,13 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo ' /_/    \_\ .__/ \__,_|\___|_| |_|\___|____|' &>> log.instalacion
 					echo '          | |                               ' &>> log.instalacion
 					echo '          |_|' &>> log.instalacion
+					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Apache2" 10 80 0
                                         yum -y install httpd &>> log.instalacion || ins=0
                                         firewall-cmd --permanent --add-port=80/tcp &>> log.instalacion
                                         firewall-cmd --permanent --add-port=443/tcp &>> log.instalacion
                                         firewall-cmd --reload &>> log.instalacion
                                         systemctl start httpd &>> log.instalacion
                                         systemctl enable httpd &>> log.instalacion
-					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Apache2" 10 80 0
 				;;
 				$nx)
 					if command -v apache2 &> /dev/null; then
@@ -105,13 +105,13 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo '  |_| \_|\__, |_|_| |_/_/\_\' &>> log.instalacion
 					echo '         __/ |             ' &>> log.instalacion
 					echo '        |___/  ' &>> log.instalacion
+					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Nginx" 10 80 0
                                         yum -y install nginx &>> log.instalacion || ins=0
                                         firewall-cmd --permanent --add-port=80/tcp &>> log.instalacion
                                         firewall-cmd --permanent --add-port=443/tcp &>> log.instalacion
                                         firewall-cmd --reload &>> log.instalacion
 	                                systemctl start nginx &>> log.instalacion
                                         systemctl enable nginx &>> log.instalacion
-					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Nginx" 10 80 0
 				;;
 				$ph)
 					echo '  _____  _           ' &>> log.instalacion
@@ -122,11 +122,11 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo ' |_|    |_| |_| .__/ ' &>> log.instalacion
 					echo '              | |    ' &>> log.instalacion
 					echo '              |_|    ' &>> log.instalacion
+					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Php" 10 80 0
 					dnf -y install https://rpms.remirepo.net/fedora/remi-release-33.rpm &>> log.instalacion
 					dnf config-manager --set-enabled remi &>> log.instalacion
 					dnf module reset php &>> log.instalacion
 					dnf module -y install php:remi-7.4 &>> log.instalacion || ins=0
-					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Php" 10 80 0
 			        ;;
 				$py)
 					echo '  _____       _   _                 ____  ' &>> log.instalacion
@@ -137,8 +137,8 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo ' |_|    \__, |\__|_| |_|\___/|_| |_|____/ ' &>> log.instalacion
 					echo '         __/ |                            ' &>> log.instalacion
 					echo '        |___/                     ' &>> log.instalacion
-					dnf install -y python3-setuptools python3-devel redhat-rpm-config &>> log.instalacion || ins=0
 					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Python3" 10 80 0
+					dnf install -y python3-setuptools python3-devel redhat-rpm-config &>> log.instalacion || ins=0
 			        ;;
 				$bd)
 					echo '  __  __            _       _____  ____  ' &>> log.instalacion
@@ -147,14 +147,14 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo ' | |\/| |/ _` | ´__| |/ _` | |  | |  _ < ' &>> log.instalacion
 					echo ' | |  | | (_| | |  | | (_| | |__| | |_) |' &>> log.instalacion
 					echo ' |_|  |_|\__,_|_|  |_|\__,_|_____/|____/ ' &>> log.instalacion
+					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando MariaDB" 10 80 0
 					dnf install mariadb-server &>> log.instalacion || ins=0
 					systemctl start mariadb &>> log.instalacion
 					systemctl enable mariadb &>> log.instalacion
-					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando MariaDB" 10 80 0
 			        ;;
 				$pp)
-					dnf install -y phpmyadmin &>> log.instalacion || ins=0
 					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Apache2" 10 80 0
+					dnf install -y phpmyadmin &>> log.instalacion || ins=0
         			;;
 			esac
 		done

@@ -1,240 +1,169 @@
 #!/bin/bash
-clear
-#Script de instalación de debian.
+
 #Comprobamos si los paquetes están instalados.
-apache2=$(dpkg-query -W -f='${Status}' apache2 2>/dev/null | grep -c "ok installed")
-nginx=$(dpkg-query -W -f='${Status}' nginx 2>/dev/null | grep -c "ok installed")
-php=$(dpkg-query -W -f='${Status}' php 2>/dev/null | grep -c "ok installed")
-python=$(dpkg-query -W -f='${Status}' python3 2>/dev/null | grep -c "ok installed")
-mysql=$(dpkg-query -W -f='${Status}' mariadb-server 2>/dev/null | grep -c "ok installed")
-phpmyadmin=$(dpkg-query -W -f='${Status}' phpmyadmin 2>/dev/null | grep -c "ok installed")
-
-	a2=0
-	nx=0
-	ph=0
-	pt=0
-	ms=0
-	pm=0
-
-if [[ $apache2 -eq 1 ]];
-then
-	i1=1
-	sna2="No"
-else
-	i1=0
+touch log.desinstalacion
+i=1
+x=1
+if command -v apache2 &> /dev/null; then
+	a2=$x
+	array[$i]="$x"
+	i=$[$i+1]
+	array[$i]='Apache2 - Servidor web'
+	i=$[$i+1]
+	array[$i]='off'
+	i=$[$i+1]
+	x=$[$x+1]
 fi
-
-if [[ $nginx -eq 1 ]];
-then
-	i2=1
-	snnx="No"
-else
-	i2=0
+if command -v nginx &> /dev/null; then
+	nx=$x
+	array[$i]="$x"
+	i=$[$i+1]
+	array[$i]='Nginx - Servidor web'
+	i=$[$i+1]
+	array[$i]='off'
+	i=$[$i+1]
+	x=$[$x+1]
 fi
-
-if [[ $php -eq 1 ]];
-then
-	i3=1
-	snph="No"
-else
-	i3=0
+if command -v php &> /dev/null; then
+	ph=$x
+	array[$i]="$x"
+	i=$[$i+1]
+	array[$i]='Php - Interprete'
+	i=$[$i+1]
+	array[$i]='off'
+	i=$[$i+1]
+	x=$[$x+1]
 fi
-
-if [[ $python -eq 1 ]];
-then
-	i4=1
-	snpt="No"
-else
-	i4=0
+if command -v python3 &> /dev/null; then
+	py=$x
+	array[$i]="$x"
+	i=$[$i+1]
+	array[$i]='Python - Interprete'
+	i=$[$i+1]
+	array[$i]='off'
+	i=$[$i+1]
+	x=$[$x+1]
 fi
-
-if [[ $mysql -eq 1 ]];
-then
-	i5=1
-	snms="No"
-else
-	i5=0
+if command -v mariadb &> /dev/null; then
+	bd=$x
+	array[$i]=$x
+	i=$[$i+1]
+	array[$i]='MariaDB - Base de datos'
+	i=$[$i+1]
+	array[$i]='off'
+	i=$[$i+1]
+	x=$[$x+1]
 fi
-
-if [[ $phpmyadmin -eq 1 ]];
-then
-	i6=1
-	snpm="No"
-else
-	i6=0
+if command -v phpmyadmin &> /dev/null; then
+	pp=$x
+	array[$i]=$x
+	i=$[$i+1]
+	array[$i]='PhpMyAdmin - Administrador WEB MariaDB'
+	i=$[$i+1]
+	array[$i]='off'
 fi
-
+terminal=$(echo $(tty))
 salir=0
-while [ $salir -eq 0 ]; do
-	num=1
-	clear
-	echo "╔═══════════════════════════════════════╗"
-	echo "║Paquete:		Selección:	║"
-	echo "╚═══════════════════════════════════════╝"
-	echo "┌---------------------------------------┐"
-	if [ "$i1" = 1 ];then
-	echo "|"$num"-Apache2		" $sna2"		|"
-	x1=$num
-	num=$[$num+1]
-	fi
-	if [ "$i2" = 1 ];then
-	echo "|"$num"-nginx		" $snnx"		|"
-	x2=$num
-	num=$[$num+1]
-	fi
-	if [ "$i3" = 1 ];then
-	echo "|"$num"-php			" $snph"		|"
-	x3=$num
-	num=$[$num+1]
-	fi
-	if [ "$i4" = 1 ];then
-	echo "|"$num"-python		" $snpt"		|"
-	x4=$num
-	num=$[$num+1]
-	fi
-	if [ "$i5" = 1 ];then
-	echo "|"$num"-mysql		" $snms"		|"
-	x5=$num
-	num=$[$num+1]
-	fi
-	if [ "$i6" = 1 ];then
-	echo "|"$num"-PhpMyAdmin		" $snpm"		|"
-	x6=$num
-	num=$[$num+1]
-	fi
-	if [ "$i1" = 0 ] && [ "$i2" = 0 ] && [ "$i3" = 0 ] && [ "$i4" = 0 ] && [ "$i5" = 0 ] && [ "$i6" = 0 ];then
-	echo "| No existe ningun paquete para eliminar|"
-	echo "└---------------------------------------┘"
-	echo "╔═══════════════════════════════════════╗"
+prog=0
+ins=1
+if [ -z "${array[@]}" ]; then
+	dialog --title "Informacion" --msgbox "No hay paquetes para eliminar." 0 0
+	exit
+fi
+valor=$(dialog --nocancel --backtitle "Desinstalar paquetes" --title "Desinstalacion" --checklist "Escoge los paquetes que desee eliminar:" 0 0 0 "${array[@]}" 2>&1 >$terminal)
+dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los siguientes paquetes?" 0 0
+	if [ $? -eq 0 ]; then
+		echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere..." 10 80 0
+		for valor in $valor; do
+		prog=$[$prog+20]
+			case $valor in
+				$a2)
+					if command -v nginx &> /dev/null; then
+						service nginx stop
+					fi
+					echo '                            _          ___  ' &>> log.desinstalacion
+					echo '     /\                    | |        |__ \ ' &>> log.desinstalacion
+					echo '    /  \   _ __   __ _  ___| |__   ___   ) |' &>> log.desinstalacion
+					echo '   / /\ \ | ´_ \ / _` |/ __|  _ \ / _ \ / / ' &>> log.desinstalacion
+					echo '  / ____ \| |_) | (_| | (__| | | |  __// /_ ' &>> log.desinstalacion
+					echo ' /_/    \_\ .__/ \__,_|\___|_| |_|\___|____|' &>> log.desinstalacion
+					echo '          | |                               ' &>> log.desinstalacion
+					echo '          |_|' &>> log.desinstalacion
+					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Apache2" 10 80 0
+					apt-get purge -y apache2 &>> log.desinstalacion || ins=0
+				;;
+				$nx)
+					if command -v apache2 &> /dev/null; then
+						service apache2 stop
+					fi
+					echo '   _   _       _            ' &>> log.desinstalacion
+					echo '  | \ | |     (_)           ' &>> log.desinstalacion
+					echo '  |  \| | __ _ _ _ __ __  __' &>> log.desinstalacion
+					echo '  | . ` |/ _` | | ´_ \\ \/ /' &>> log.desinstalacion
+					echo '  | |\  | (_| | | | | |>  < ' &>> log.desinstalacion
+					echo '  |_| \_|\__, |_|_| |_/_/\_\' &>> log.desinstalacion
+					echo '         __/ |             ' &>> log.desinstalacion
+					echo '        |___/  ' &>> log.desinstalacion
+					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Nginx" 10 80 0
+					apt-get purge -y nginx &>> log.desinstalacion || ins=0
+				;;
+				$ph)
+					echo '  _____  _           ' &>> log.desinstalacion
+					echo ' |  __ \| |          ' &>> log.desinstalacion
+					echo ' | |__) | |__  _ __  ' &>> log.desinstalacion
+					echo ' |  ___/|  _ \| ´_ \ ' &>> log.desinstalacion
+					echo ' | |    | | | | |_) |' &>> log.desinstalacion
+					echo ' |_|    |_| |_| .__/ ' &>> log.desinstalacion
+					echo '              | |    ' &>> log.desinstalacion
+					echo '              |_|    ' &>> log.desinstalacion
+					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Php" 10 80 0
+					apt-get purge -y php &>> log.desinstalacion || ins=0
+			        ;;
+				$py)
+					echo '  _____       _   _                 ____  ' &>> log.desinstalacion
+					echo ' |  __ \     | | | |               |___ \ ' &>> log.desinstalacion
+					echo ' | |__) |   _| |_| |__   ___  _ __   __) |' &>> log.desinstalacion
+					echo ' |  ___/ | | | __|  _ \ / _ \| ´_ \ |__ < ' &>> log.desinstalacion
+					echo ' | |   | |_| | |_| | | | (_) | | | |___) |' &>> log.desinstalacion
+					echo ' |_|    \__, |\__|_| |_|\___/|_| |_|____/ ' &>> log.desinstalacion
+					echo '         __/ |                            ' &>> log.desinstalacion
+					echo '        |___/                     ' &>> log.desinstalacion
+					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Python3" 10 80 0
+					apt-get purge -y python3 &>> log.desinstalacion || ins=0
+			        ;;
+				$bd)
+					echo '  __  __            _       _____  ____  ' &>> log.desinstalacion
+					echo ' |  \/  |          (_)     |  __ \|  _ \ ' &>> log.desinstalacion
+					echo ' | \  / | __ _ _ __ _  __ _| |  | | |_) |' &>> log.desinstalacion
+					echo ' | |\/| |/ _` | ´__| |/ _` | |  | |  _ < ' &>> log.desinstalacion
+					echo ' | |  | | (_| | |  | | (_| | |__| | |_) |' &>> log.desinstalacion
+					echo ' |_|  |_|\__,_|_|  |_|\__,_|_____/|____/ ' &>> log.desinstalacion
+					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando MariaDB" 10 80 0
+					apt-get purge -y mariadb-server &>> log.desinstalacion || ins=0
+			        ;;
+				$pp)
+					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando PhpMyAdmin" 10 80 0
+					apt-get purge -y phpmyadmin &>> log.desinstalacion || ins=0
+        			;;
+			esac
+		done
+		echo "90" | dialog --title "Desinstalacion en progreso." --gauge "Autoeliminando paquetes residuales." 10 80 0
+		apt-get autoremove -y
+		echo "100" | dialog --title "Desinstalacion en progreso." --gauge "Desinstalacion completada." 10 80 0
+		sleep 2
+		if [[ $ins -eq 1 ]]; then
+			dialog --title "Informacion" --yesno "Paquetes eliminados correctamente. ¿Quieres ver el log?" 0 0
+			if [ $? -eq 0 ]; then
+				dialog --title "Log de desinstalacion" --textbox log.desinstalacion 0 0
+			fi
+		elif [[ $ins -eq 0 ]];then
+			dialog --title "ERROR" --yesno "Ha ocurrido un error al eliminar los paquetes. ¿Quieres ver el log?" 0 0
+			if [ $? -eq 0 ]; then
+				dialog --title "Log de desinstalacion" --textbox log.desinstalacion 0 0
+			fi
+		fi
 	else
-	echo "└---------------------------------------┘"
-	echo "╔═══════════════════════════════════════╗"
-	echo "║7-Desinstalar seleccionados.           ║"
+		dialog --title "Informacion" --msgbox "Desinstalacion cancelada." 0 0
 	fi
-	echo "║8-Atrás                                ║"
-	echo "╚═══════════════════════════════════════╝"
 
-	read -p "Opción: " valor
-	case $valor in
-		$x1)
-		if [[ $sna2 == "Si" ]];
-		then
-			sna2="No"
-			a2=0
-		else
-			sna2="Si"
-			a2=1
-		fi
-		;;
-		$x2)
-                if [[ $snnx == "Si" ]];
-                then
-			snnx="No"
-			nx=0
-                else
-			snnx="Si"
-			nx=1
-                fi
-		;;
-		$x3)
-                if [[ $snph == "Si" ]];
-                then
-			snph="No"
-			ph=0
-                else
-			snph="Si"
-			ph=1
-                fi
-		;;
-		$x4)
-                if [[ $snpt == "Si" ]];
-                then
-			snpt="No"
-			pt=0
-                else
-			snpt="Si"
-			pt=1
-                fi
-		;;
-		$x5)
-                if [[ $snms == "Si" ]];
-                then
-			snms="No"
-			ms=0
-                else
-			snms="Si"
-			ms=1
-                fi
-		;;
-		$x6)
-                if [[ $snpm == "Si" ]];
-                then
-			snpm="No"
-			pm=0
-                else
-			snpm="Si"
-			pm=1
-                fi
-		;;
-		7)
-                echo $a2 $nx $ph $pt $ms $pm
-                read -p "enter para continuar"
-                clear
-                echo "╔══════════════════════════════════════════════╗"
-                echo "║ Eliminando paquetes seleccionados...         ║"
-                echo "╚══════════════════════════════════════════════╝"
-
-                if [ "$a2" = 1 ]; then
-                        if [ "$snnx" = "Existe" ]; then
-                                service nginx stop
-                        fi
-                        apt remove -y apache2 &>/dev/null
-                        apt purge -y apache2 &>/dev/null
-                fi
-                if [ "$nx" = 1 ]; then
-                        if [ "$sna2" = "Existe" ]; then
-                                service apache2 stop
-                        fi
-                        apt remove -y nginx &>/dev/null
-                        apt purge -y nginx &>/dev/null
-                fi
-                if [ "$ph" = 1 ]; then
-                        apt remove -y php &>/dev/null
-                        apt purge -y php &>/dev/null
-                fi
-                if [ "$pt" = 1 ]; then
-                        apt remove -y python3 &>/dev/null
-                        apt purge -y python3 &>/dev/null
-                fi
-                if [ "$ms" = 1 ]; then
-                        apt remove -y mariadb-server &>/dev/null
-                        apt purge -y mariadb-server &>/dev/null
-                fi
-                if [ "$pm" = 1 ]; then
-                        apt remove -y phpmyadmin &>/dev/null
-                        apt purge -y phpmyadmin &>/dev/null
-                fi
-                if [ "$a2" = 0 ] && [ "$nx" = 0 ] && [ "$ph" = 0 ] && [ "$pt" = 0 ] && [ "$ms" = 0 ] && [ "$pm" = 0 ]; then
-                        clear
-                        echo "╔══════════════════════════════════════════════╗"
-                        echo "║ ERROR: No se ha seleccionado ningun paquete. ║"
-                        echo "║ Presiona enter para continuar.               ║"
-                        echo "╚══════════════════════════════════════════════╝"
-                        read
-                else
-			apt autoremove -y
-                        clear
-                        echo "╔══════════════════════════════════════════════╗"
-                        echo "║ Paquetes eliminados correctamente.           ║"
-                        echo "║ Presiona enter para continuar.               ║"
-                        echo "╚══════════════════════════════════════════════╝"
-                        read
-			salir=1
-		fi
-		;;
-        8)
-		salir=1
-		;;
-	esac
-	clear
-done
+rm -r log.desinstalacion

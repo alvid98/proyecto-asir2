@@ -65,7 +65,11 @@ fi
 terminal=$(echo $(tty))
 salir=0
 prog=0
-
+ins=1
+if [ -z "${array[@]}" ]; then
+        dialog --title "Informacion" --msgbox "No hay paquetes para instalar." 0 0
+        exit
+fi
 valor=$(dialog --nocancel --backtitle "Instalar paquetes" --title "Instalacion" --checklist "Escoge los paquetes que desees" 0 0 0 "${array[@]}" 2>&1 >$terminal)
 dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los siguientes paquetes?" 0 0
 	if [ $? -eq 0 ]; then
@@ -85,8 +89,8 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo ' /_/    \_\ .__/ \__,_|\___|_| |_|\___|____|' &>> log.instalacion
 					echo '          | |                               ' &>> log.instalacion
 					echo '          |_|' &>> log.instalacion
-					apt-get install -y apache2 &>> log.instalacion || ins=0
 					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Apache2" 10 80 0
+					apt-get install -y apache2 &>> log.instalacion || ins=0
 				;;
 				$nx)
 					if command -v apache2 &> /dev/null; then
@@ -100,8 +104,8 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo '  |_| \_|\__, |_|_| |_/_/\_\' &>> log.instalacion
 					echo '         __/ |             ' &>> log.instalacion
 					echo '        |___/  ' &>> log.instalacion
-					apt-get install -y nginx &>> log.instalacion || ins=0
 					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Nginx" 10 80 0
+					apt-get install -y nginx &>> log.instalacion || ins=0
 				;;
 				$ph)
 					echo '  _____  _           ' &>> log.instalacion
@@ -112,8 +116,8 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo ' |_|    |_| |_| .__/ ' &>> log.instalacion
 					echo '              | |    ' &>> log.instalacion
 					echo '              |_|    ' &>> log.instalacion
-					apt-get install -y php &>> log.instalacion || ins=0
 					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Php" 10 80 0
+					apt-get install -y php &>> log.instalacion || ins=0
 			        ;;
 				$py)
 					echo '  _____       _   _                 ____  ' &>> log.instalacion
@@ -134,12 +138,12 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo ' | |\/| |/ _` | ´__| |/ _` | |  | |  _ < ' &>> log.instalacion
 					echo ' | |  | | (_| | |  | | (_| | |__| | |_) |' &>> log.instalacion
 					echo ' |_|  |_|\__,_|_|  |_|\__,_|_____/|____/ ' &>> log.instalacion
-					apt-get install -y mariadb-server &>> log.instalacion || ins=0
 					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando MariaDB" 10 80 0
+					apt-get install -y mariadb-server &>> log.instalacion || ins=0
 			        ;;
 				$pp)
-					apt-get install -y phpmyadmin &>> log.instalacion || ins=0
 					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Apache2" 10 80 0
+					apt-get install -y phpmyadmin &>> log.instalacion || ins=0
         			;;
 			esac
 		done

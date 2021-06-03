@@ -1,8 +1,9 @@
 #!/bin/bash
 dialog --stdout --title "Confirmación" --yesno "¿Desea comprobar actualizaciónes?" 0 0
 if [ $? -eq 0 ]; then
-	nact=$(apt list --upgradable 2>/dev/null | tail -n +2 | wc -l)
-	dialog --stdout --title "Confirmación" --yesno "Hay $nact paquetes disponibles para actualizar, ¿desea actualizar ahora?" 0 0
+zypper list-updates >/dev/null
+if [ $? -eq 100 ];then
+	dialog --stdout --title "Confirmación" --yesno "Hay paquetes disponibles para actualizar, ¿desea actualizar ahora?" 0 0
 	if [ $? -eq 0 ]; then
 		touch log.upgrade
 		apt update &>/dev/null
@@ -19,5 +20,8 @@ if [ $? -eq 0 ]; then
 			fi
 		fi
 	fi
+else
+	dialog --title "Log de actualización" --msgbox "No hay paquetes disponibles para actualizar" 0 0
+fi
 fi
 rm -r log.upgrade

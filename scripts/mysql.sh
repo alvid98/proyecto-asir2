@@ -1,6 +1,11 @@
 #!/bin/bash
 
 salir=0
+if ! command -v mysql; then
+	dialog --title "ERROR" --msgbox "No tienes instalado MySQL" 0 0
+	salir=1
+fi
+touch lista.mysql
 while [ $salir -eq 0 ]; do
 	valor=$(dialog --nocancel --backtitle "Exportar/Importar BBDD" --title "Exportar/Importar BBDD" --stdout --menu "Elija una opcion :" 0 0 0 1 "Importar BBDD" 2 "Exportar BBDD" 3 "Atras")
 	case $valor in
@@ -53,4 +58,4 @@ while [ $salir -eq 0 ]; do
 		;;
 	esac
 done
-
+rm -r lista.mysql

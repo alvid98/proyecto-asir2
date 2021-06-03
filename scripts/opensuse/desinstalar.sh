@@ -90,11 +90,14 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los 
 					echo '          | |                               ' &>> log.desinstalacion
 					echo '          |_|' &>> log.desinstalacion
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Apache2" 10 80 0
-					apt-get purge -y apache2 &>> log.desinstalacion || ins=0
+                                        zypper rm --no-confirm apache2 --clean-deps &>> log.desinstalacion || ins=0
+                                        yum -y autoremove httpd &>> log.desinstalacion || ins=0
+					firewall-cmd --permanent --remove-service=http --remove-service=https&>> log.desinstalacion
+                                        firewall-cmd --reload &>> log.desinstalacion
 				;;
 				$nx)
-					if command -v apache2 &> /dev/null; then
-						service apache2 stop
+					if command -v httpd &> /dev/null; then
+						service httpd stop
 					fi
 					echo '   _   _       _            ' &>> log.desinstalacion
 					echo '  | \ | |     (_)           ' &>> log.desinstalacion
@@ -105,7 +108,9 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los 
 					echo '         __/ |             ' &>> log.desinstalacion
 					echo '        |___/  ' &>> log.desinstalacion
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Nginx" 10 80 0
-					apt-get purge -y nginx &>> log.desinstalacion || ins=0
+                                        zypper rm --no-confirm nginx --clean-deps &>> log.desinstalacion || ins=0
+					firewall-cmd --permanent --remove-service=http --remove-service=https&>> log.desinstalacion
+                                        firewall-cmd --reload &>> log.desinstalacion
 				;;
 				$ph)
 					echo '  _____  _           ' &>> log.desinstalacion
@@ -117,7 +122,7 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los 
 					echo '              | |    ' &>> log.desinstalacion
 					echo '              |_|    ' &>> log.desinstalacion
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Php" 10 80 0
-					apt-get purge -y php &>> log.desinstalacion || ins=0
+                                        zypper rm --no-confirm php7-fpm php7 --clean-deps &>> log.desinstalacion || ins=0
 			        ;;
 				$py)
 					echo '  _____       _   _                 ____  ' &>> log.desinstalacion
@@ -129,7 +134,7 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los 
 					echo '         __/ |                            ' &>> log.desinstalacion
 					echo '        |___/                     ' &>> log.desinstalacion
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando Python3" 10 80 0
-					apt-get purge -y python3 &>> log.desinstalacion || ins=0
+                                        zypper rm --no-confirm python-pip python3-virtualenv --clean-deps &>> log.desinstalacion || ins=0
 			        ;;
 				$bd)
 					echo '  __  __            _       _____  ____  ' &>> log.desinstalacion
@@ -139,16 +144,14 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los 
 					echo ' | |  | | (_| | |  | | (_| | |__| | |_) |' &>> log.desinstalacion
 					echo ' |_|  |_|\__,_|_|  |_|\__,_|_____/|____/ ' &>> log.desinstalacion
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando MariaDB" 10 80 0
-					apt-get purge -y mariadb-server &>> log.desinstalacion || ins=0
+                                        zypper rm --no-confirm mariadb mariadb-client mariadb-tools --clean-deps &>> log.desinstalacion || ins=0
 			        ;;
 				$pp)
 					echo $prog | dialog --title "Desinstalacion en progreso." --gauge "Por favor, espere...\n Eliminando PhpMyAdmin" 10 80 0
-					apt-get purge -y phpmyadmin &>> log.desinstalacion || ins=0
+                                        zypper rm --no-confirm phpmyadmin --clean-deps &>> log.desinstalacion || ins=0
         			;;
 			esac
 		done
-		echo "90" | dialog --title "Desinstalacion en progreso." --gauge "Autoeliminando paquetes residuales." 10 80 0
-		apt-get autoremove -y
 		echo "100" | dialog --title "Desinstalacion en progreso." --gauge "Desinstalacion completada." 10 80 0
 		sleep 2
 		if [[ $ins -eq 1 ]]; then

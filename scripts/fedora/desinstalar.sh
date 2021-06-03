@@ -163,8 +163,6 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea eliminar los 
         			;;
 			esac
 		done
-		echo "90" | dialog --title "Desinstalacion en progreso." --gauge "Autoeliminando paquetes residuales." 10 80 0
-		apt-get autoremove -y
 		echo "100" | dialog --title "Desinstalacion en progreso." --gauge "Desinstalacion completada." 10 80 0
 		sleep 2
 		if [[ $ins -eq 1 ]]; then

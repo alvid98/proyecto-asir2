@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #Comprobamos si los paquetes están instalados.
-touch log.instalacion
 i=1
 x=1
 if ! command -v apache2 &> /dev/null; then
@@ -65,6 +64,8 @@ fi
 terminal=$(echo $(tty))
 salir=0
 prog=0
+ins=1
+touch log.instalacion
 
 valor=$(dialog --nocancel --backtitle "Instalar paquetes" --title "Instalacion" --checklist "Escoge los paquetes que desees" 0 0 0 "${array[@]}" 2>&1 >$terminal)
 dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los siguientes paquetes?" 0 0

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #Comprobamos si los paquetes están instalados.
-touch log.instalacion
 i=1
 x=1
 if ! command -v apache2 &> /dev/null; then
@@ -65,7 +64,12 @@ fi
 terminal=$(echo $(tty))
 salir=0
 prog=0
-
+ins=1
+if [ -z "${array[@]}" ]; then
+        dialog --title "Informacion" --msgbox "No hay paquetes para instalar." 0 0
+        exit
+fi
+touch log.instalacion
 valor=$(dialog --nocancel --backtitle "Instalar paquetes" --title "Instalacion" --checklist "Escoge los paquetes que desees" 0 0 0 "${array[@]}" 2>&1 >$terminal)
 dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los siguientes paquetes?" 0 0
 	if [ $? -eq 0 ]; then
@@ -85,12 +89,12 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo ' /_/    \_\ .__/ \__,_|\___|_| |_|\___|____|' &>> log.instalacion
 					echo '          | |                               ' &>> log.instalacion
 					echo '          |_|' &>> log.instalacion
+					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Apache2" 10 80 0
 					zypper install --no-confirm apache2 &>> log.instalacion || ins=0
 					systemctl enable apache2 &>> log.instalacion
 					firewall-cmd --permanent --add-service=http --add-service=https &>> log.instalacion
 					firewall-cmd --reload &>> log.instalacion
 					chown --recursive wwwrun:wwwrun /srv/www/ &>> log.instalacion
-					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Apache2" 10 80 0
 				;;
 				$nx)
 					if command -v apache2 &> /dev/null; then
@@ -104,12 +108,12 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo '  |_| \_|\__, |_|_| |_/_/\_\' &>> log.instalacion
 					echo '         __/ |             ' &>> log.instalacion
 					echo '        |___/  ' &>> log.instalacion
+					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Nginx" 10 80 0
 					zypper install --no-confirm nginx &>> log.instalacion || ins=0
 					systemctl enable nginx &>> log.instalacion
 					firewall-cmd --permanent --add-service=http --add-service=https &>> log.instalacion
 					firewall-cmd --reload &>> log.instalacion
 					chown --recursive wwwrun:wwwrun /srv/www/ &>> log.instalacion
-					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Nginx" 10 80 0
 				;;
 				$ph)
 					echo '  _____  _           ' &>> log.instalacion
@@ -133,8 +137,8 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo ' |_|    \__, |\__|_| |_|\___/|_| |_|____/ ' &>> log.instalacion
 					echo '         __/ |                            ' &>> log.instalacion
 					echo '        |___/                     ' &>> log.instalacion
-					zypper install --no-confirm python-pip python3-virtualenv &>> log.instalacion || ins=0
 					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Python3" 10 80 0
+					zypper install --no-confirm python-pip python3-virtualenv &>> log.instalacion || ins=0
 			        ;;
 				$bd)
 					echo '  __  __            _       _____  ____  ' &>> log.instalacion
@@ -143,13 +147,13 @@ dialog --stdout --title "Confirmacion" --yesno "¿Seguro que desea instalar los 
 					echo ' | |\/| |/ _` | ´__| |/ _` | |  | |  _ < ' &>> log.instalacion
 					echo ' | |  | | (_| | |  | | (_| | |__| | |_) |' &>> log.instalacion
 					echo ' |_|  |_|\__,_|_|  |_|\__,_|_____/|____/ ' &>> log.instalacion
+					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando MariaDB" 10 80 0
 					zypper install --no-confirm mariadb mariadb-client mariadb-tools &>> log.instalacion || ins=0
 					systemctl enable mysql &>> log.instalacion
-					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando MariaDB" 10 80 0
 			        ;;
 				$pp)
-					zypper install --no-confirm phpmyadmin &>> log.instalacion || ins=0
 					echo $prog | dialog --title "Instalacion en progreso." --gauge "Por favor, espere...\n Instalando Apache2" 10 80 0
+					zypper install --no-confirm phpmyadmin &>> log.instalacion || ins=0
         			;;
 			esac
 		done

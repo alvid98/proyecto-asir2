@@ -1,9 +1,10 @@
 #!/bin/bash
 dialog --stdout --title "Confirmación" --yesno "¿Desea comprobar actualizaciónes?" 0 0
 if [ $? -eq 0 ]; then
-	nact=$(apt update 2>/dev/null | tail -1 | cut -d" " -f 4)
+	nact=$(apt list --upgradable 2>/dev/null | tail -n +2 | wc -l)
 	dialog --stdout --title "Confirmación" --yesno "Hay $nact paquetes disponibles para actualizar, ¿desea actualizar ahora?" 0 0
 	if [ $? -eq 0 ]; then
+		touch log.upgrade
 		apt update &>/dev/null
 		apt-get upgrade -y &> log.upgrade
 		if [ $? -eq 0 ];then

@@ -11,15 +11,11 @@ if [ "$EUID" -ne 0 ];then
 	echo "╚═══════════════════════════════════════╝"
 	exit
 else
-	for x in ${sistemas[@]}
-	do
+	for x in ${sistemas[@]}; do
 		detectado+=$(echo $id | grep $x)
 	done
-
-
 	if [[ $detectado == "" ]]; then
-		for x in ${sistemas[@]}
-		do
+		for x in ${sistemas[@]}; do
 			detectado+=$(echo $idlike | grep $x)
 		done
 		if [[ $detectado == "" ]]; then
@@ -36,28 +32,30 @@ else
 			read -p "Opción: " linux
 			case $linux in
 				1)
-				detectado=$(echo debian)
+				detectado="debian"
 				;;
 				2)
-				detectado=$(echo fedora)
+				detectado="fedora"
 				;;
 				3)
-				detectado=$(echo opensuse)
+				detectado="opensuse"
 				;;
 				4)
-				detectado=$(echo arch)
+				detectado="arch"
 				;;
-			esac 
+			esac
+
 		fi
 	fi
-#Iniciamos el menú enviandole el sistema que se está usando
+	if [ $detectado == "ubuntu" ]; then
+	detectado="debian"
+	fi
 	if ! command -v dialog &> /dev/null; then
 		if [[ $detectado == "debian" ]]; then apt install -y dialog
 		elif [[ $detectado == "fedora" ]]; then dnf install -y dialog
 		elif [[ $detectado == "opensuse" ]]; then zypper install -y dialog
 		elif [[ $detectado == "fedora" ]]; then pacman -S dialog
+		fi
 	fi
-	fi
-
-./scripts/menu.sh $detectado
+	./scripts/menu.sh $detectado
 fi

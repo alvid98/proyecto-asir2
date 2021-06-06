@@ -1,5 +1,5 @@
 # Proyecto fin de grado <a href="https://av.iesromerovargas.com/course/index.php?categoryid=9">ASIR2</a>
-<img src='https://pasteimg.com/images/2021/05/10/image3b61837798b1c59f.png' border='0' alt='image'/></a>
+<img src='https://pasteimg.com/images/2021/06/06/imagen.png' border='0' alt='image'/></a>
 # Descripción
 
 Crear un script que instale los paquetes esenciales que se usan en el grado superior de Desarrollo de Aplicaciones Web, que autodetecte el sistema operativo Linux que esté usando y te de opciones de administración tales como importación/exportación de bases de datos, creación de virtualhosts y copias de seguridad.

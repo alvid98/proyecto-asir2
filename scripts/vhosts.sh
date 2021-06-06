@@ -20,9 +20,6 @@ if [ $? -eq 0 ]; then
 while [ $salir1 -eq 1 ]; do
 	salir2=1
 	salir3=1
-	salir4=1
-	salir5=1
-	salir6=1
 	menu=$(dialog --backtitle "Configuracion VirualHosts" --title "$server" --stdout --menu "¿Qué desea hacer?" 0 0 0 1 "Crear VHost" 2 "Editar VHost" 3 "Activar VHost" 4 "Desactivar VHost" 5 "Eliminar VHost")
 	if [ $? -eq 0 ]; then
 		case $menu in
@@ -134,101 +131,88 @@ while [ $salir1 -eq 1 ]; do
 			rm -rf lista.*
 			;;
 			3)
-			while [ $salir4 -eq 1 ]; do
-				ls $sitesavailable > lista.vhosts
-				ls $sitesenabled >> lista.vhosts
-				cat lista.vhosts | sort |uniq -u > lista.vhostdisabled
-	                        terminal=$(echo $(tty))
-	                        i=1
-	                        j=1
-				unset 'array2[@]'
-	                        while read line; do
-	                                array2[ $i ]=$j
-	                                (( j++ ))
-	                                array2[ ($i + 1) ]=$line
-	                                (( i=($i+2) ))
-                      			done < lista.vhostdisabled
-	                        vhost=$(dialog --backtitle "Elegir VHost" --title "Activar VHost" --menu "Elige el VHost que desea activar:" 0 0 0 "${array2[@]}" 2>&1 >$terminal)
-				if [ $? -eq 0 ]; then
-					nombrevhost=$(cat lista.vhostdisabled | cut -f$vhost -d$'\n')
-					if [ $server == "Apache2" ]; then
-						a2ensite $nombrevhost
-						systemctl reload apache2
-					else
-						ln -s /etc/nginx/sites-available/$nombrevhost /etc/nginx/sites-enabled/
-					fi
-					dialog --title "Informacion" --msgbox "VirtualHost $nombrevhost activado para $server." 0 0
-					salir4=0
+			ls $sitesavailable > lista.vhosts
+			ls $sitesenabled >> lista.vhosts
+			cat lista.vhosts | sort |uniq -u > lista.vhostdisabled
+	        terminal=$(echo $(tty))
+	        i=1
+	        j=1
+			unset 'array2[@]'
+	        while read line; do
+	            array2[ $i ]=$j
+	            (( j++ ))
+	            array2[ ($i + 1) ]=$line
+	            (( i=($i+2) ))
+            done < lista.vhostdisabled
+	        vhost=$(dialog --backtitle "Elegir VHost" --title "Activar VHost" --menu "Elige el VHost que desea activar:" 0 0 0 "${array2[@]}" 2>&1 >$terminal)
+			if [ $? -eq 0 ]; then
+				nombrevhost=$(cat lista.vhostdisabled | cut -f$vhost -d$'\n')
+				if [ $server == "Apache2" ]; then
+					a2ensite $nombrevhost
+					systemctl reload apache2
 				else
-					dialog --title "Informacion" --msgbox "Activacion cancelada." 0 0
-					salir4=0
+					ln -s /etc/nginx/sites-available/$nombrevhost /etc/nginx/sites-enabled/
 				fi
+				dialog --title "Informacion" --msgbox "VirtualHost $nombrevhost activado para $server." 0 0
+			else
+				dialog --title "Informacion" --msgbox "Activacion cancelada." 0 0
+			fi
 			rm -rf lista.*
-			done
 			;;
 			4)
-			while [ $salir5 -eq 1 ]; do
-				ls $sitesenabled > lista.vhostenabled
-	                        terminal=$(echo $(tty))
-	                        i=1
-	                        j=1
-				unset 'array3[@]'
-	                        while read line; do
-	                                array3[ $i ]=$j
-	                                (( j++ ))
-	                                array3[ ($i + 1) ]=$line
-	                                (( i=($i+2) ))
-                      			done < lista.vhostenabled
-	                        vhost=$(dialog --backtitle "Elegir VHost" --title "Desactivar VHost" --menu "Elige el VHost que desea desactivar:" 0 0 0 "${array3[@]}" 2>&1 >$terminal)
-				if [ $? -eq 0 ]; then
-					nombrevhost=$(cat lista.vhostenabled | cut -f$vhost -d$'\n')
-					if [ $server == "Apache2" ]; then
-						a2dissite $nombrevhost
-						systemctl reload apache2
-					else
-						rm "${sitesenabled}${nombrevhost}"
-					fi
-					dialog --title "Informacion" --msgbox "VirtualHost $nombrevhost desactivado para $server." 0 0
-					salir5=0
+			ls $sitesenabled > lista.vhostenabled
+			terminal=$(echo $(tty))
+            i=1
+	        j=1
+			unset 'array3[@]'
+	        while read line; do
+	            array3[ $i ]=$j
+				(( j++ ))
+				array3[ ($i + 1) ]=$line
+	            (( i=($i+2) ))
+            done < lista.vhostenabled
+	        vhost=$(dialog --backtitle "Elegir VHost" --title "Desactivar VHost" --menu "Elige el VHost que desea desactivar:" 0 0 0 "${array3[@]}" 2>&1 >$terminal)
+			if [ $? -eq 0 ]; then
+				nombrevhost=$(cat lista.vhostenabled | cut -f$vhost -d$'\n')
+				if [ $server == "Apache2" ]; then
+					a2dissite $nombrevhost
+					systemctl reload apache2
 				else
-					dialog --title "Informacion" --msgbox "Desactivacion cancelada." 0 0
-					salir5=0
+					rm "${sitesenabled}${nombrevhost}"
 				fi
-			done
+				dialog --title "Informacion" --msgbox "VirtualHost $nombrevhost desactivado para $server." 0 0
+			else
+				dialog --title "Informacion" --msgbox "Desactivacion cancelada." 0 0
+			fi
 			rm -rf lista.*
 			;;
 			5)
-			while [ $salir6 -eq 1 ]; do
-				ls $sitesavailable > lista.vhost
-	                        terminal=$(echo $(tty))
-	                        i=1
-	                        j=1
-				unset 'array4[@]'
-	                        while read line; do
-	                                array4[ $i ]=$j
-	                                (( j++ ))
-	                                array4[ ($i + 1) ]=$line
-	                                (( i=($i+2) ))
-                      			done < lista.vhost
-	                        vhost=$(dialog --backtitle "Elegir VHost" --title "Eliminar VHost" --menu "Elige el VHost que desea eliminar:" 0 0 0 "${array4[@]}" 2>&1 >$terminal)
-				if [ $? -eq 0 ]; then
-					nombrevhost=$(cat lista.vhost | cut -f$vhost -d$'\n')
-					if [ $server == "Apache2" ]; then
-						a2dissite $nombrevhost
-						systemctl reload apache2
-						rm "${sitesavailable}${nombrevhost}"
-					else
-						rm "${sitesenabled}${nombrevhost}"
-						rm "${sitesavailable}${nombrevhost}"
-					fi
-					dialog --title "Informacion" --msgbox "VirtualHost $nombrevhost eliminado para $server." 0 0
-					salir6=0
+			ls $sitesavailable > lista.vhost
+	        terminal=$(echo $(tty))
+	        i=1
+	        j=1
+			unset 'array4[@]'
+	        while read line; do
+	            array4[ $i ]=$j
+	            (( j++ ))
+	            array4[ ($i + 1) ]=$line
+	            (( i=($i+2) ))
+            done < lista.vhost
+	        vhost=$(dialog --backtitle "Elegir VHost" --title "Eliminar VHost" --menu "Elige el VHost que desea eliminar:" 0 0 0 "${array4[@]}" 2>&1 >$terminal)
+			if [ $? -eq 0 ]; then
+				nombrevhost=$(cat lista.vhost | cut -f$vhost -d$'\n')
+				if [ $server == "Apache2" ]; then
+					a2dissite $nombrevhost
+					systemctl reload apache2
+					rm "${sitesavailable}${nombrevhost}"
 				else
-					dialog --title "Informacion" --msgbox "Eliminado cancelado." 0 0
-					salir6=0
+					rm "${sitesenabled}${nombrevhost}"
+					rm "${sitesavailable}${nombrevhost}"
 				fi
-
-			done
+				dialog --title "Informacion" --msgbox "VirtualHost $nombrevhost eliminado para $server." 0 0
+			else
+				dialog --title "Informacion" --msgbox "Eliminado cancelado." 0 0
+			fi
 			rm -rf lista.*
 			;;
 		esac
